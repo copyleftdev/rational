@@ -30,7 +30,7 @@ All chapters share one production-agentic workload profile (Hermes-Agent-style t
 | 02 | [Self-host vs. serverless](models/02-selfhost/) | Utilization a GPU node must hold to beat per-token API | `finance`, `eval` | ✅ |
 | 03 | [The reasoning-token tax](models/03-reasoning-tax/) | Cost per *solved task* once you count thinking tokens | `eval`, `solve` | ✅ |
 | 04 | [The retry cascade](models/04-retry-cascade/) | Cheap→premium escalation: near-total coverage at a fraction of frontier cost | `stats`, `eval` | ✅ |
-| 05 | NPV of waiting | Reserved-capacity prepay vs. riding the price decline | `finance` | ⬜ |
+| 05 | [NPV of waiting](models/05-npv-waiting/) | Reserved-capacity prepay vs. riding the price decline | `finance` | ✅ |
 | 06 | Prompt-cache ROI | Reuse count where caching pays off vs. write premium | `optimize`, `interval` | ⬜ |
 | 07 | Agent-loop compounding | Why turn N costs O(N²) without compaction | `polynomial` | ⬜ |
 

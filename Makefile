@@ -1,8 +1,8 @@
-.PHONY: all ch00 ch01 ch02 ch03 ch04 clean check-calc
+.PHONY: all ch00 ch01 ch02 ch03 ch04 ch05 clean check-calc
 
 PY := python3
 
-all: ch01 ch02 ch03 ch04
+all: ch01 ch02 ch03 ch04 ch05
 
 check-calc:
 	@command -v agent-calc >/dev/null 2>&1 || { echo "ERROR: agent-calc not on PATH"; exit 1; }
@@ -27,6 +27,10 @@ ch03: check-calc
 ## ch04 — the retry cascade (primary → fallback routing)
 ch04: check-calc
 	$(PY) models/04-retry-cascade/cascade.py
+
+## ch05 — NPV of waiting (commit vs ride the price decline)
+ch05: check-calc
+	$(PY) models/05-npv-waiting/npv.py
 
 clean:
 	find . -name '__pycache__' -type d -prune -exec rm -rf {} +
