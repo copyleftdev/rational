@@ -1,8 +1,8 @@
-.PHONY: all ch00 ch01 ch02 clean check-calc
+.PHONY: all ch00 ch01 ch02 ch03 clean check-calc
 
 PY := python3
 
-all: ch01 ch02
+all: ch01 ch02 ch03
 
 check-calc:
 	@command -v agent-calc >/dev/null 2>&1 || { echo "ERROR: agent-calc not on PATH"; exit 1; }
@@ -19,6 +19,10 @@ ch01: check-calc
 ## ch02 — self-host vs serverless break-even utilization
 ch02: check-calc
 	$(PY) models/02-selfhost/breakeven.py
+
+## ch03 — the reasoning-token tax (cost per solved task)
+ch03: check-calc
+	$(PY) models/03-reasoning-tax/tax.py
 
 clean:
 	find . -name '__pycache__' -type d -prune -exec rm -rf {} +
