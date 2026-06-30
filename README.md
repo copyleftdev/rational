@@ -31,8 +31,8 @@ All chapters share one production-agentic workload profile (Hermes-Agent-style t
 | 03 | [The reasoning-token tax](models/03-reasoning-tax/) | Cost per *solved task* once you count thinking tokens | `eval`, `solve` | ✅ |
 | 04 | [The retry cascade](models/04-retry-cascade/) | Cheap→premium escalation: near-total coverage at a fraction of frontier cost | `stats`, `eval` | ✅ |
 | 05 | [NPV of waiting](models/05-npv-waiting/) | Reserved-capacity prepay vs. riding the price decline | `finance` | ✅ |
-| 06 | Prompt-cache ROI | Reuse count where caching pays off vs. write premium | `optimize`, `interval` | ⬜ |
-| 07 | Agent-loop compounding | Why turn N costs O(N²) without compaction | `polynomial` | ⬜ |
+| 06 | [Prompt-cache ROI](models/06-cache-roi/) | Reuse count where caching pays off vs. write premium | `eval`, `interval` | ✅ |
+| 07 | [Agent-loop compounding](models/07-loop-compounding/) | Why turn N costs O(N²) without compaction | `polynomial` | ✅ |
 
 ## Reproduce
 

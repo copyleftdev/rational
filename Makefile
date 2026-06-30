@@ -1,8 +1,8 @@
-.PHONY: all ch00 ch01 ch02 ch03 ch04 ch05 clean check-calc
+.PHONY: all ch00 ch01 ch02 ch03 ch04 ch05 ch06 ch07 clean check-calc
 
 PY := python3
 
-all: ch01 ch02 ch03 ch04 ch05
+all: ch01 ch02 ch03 ch04 ch05 ch06 ch07
 
 check-calc:
 	@command -v agent-calc >/dev/null 2>&1 || { echo "ERROR: agent-calc not on PATH"; exit 1; }
@@ -31,6 +31,14 @@ ch04: check-calc
 ## ch05 — NPV of waiting (commit vs ride the price decline)
 ch05: check-calc
 	$(PY) models/05-npv-waiting/npv.py
+
+## ch06 — prompt-cache ROI (break-even reuse count)
+ch06: check-calc
+	$(PY) models/06-cache-roi/cache.py
+
+## ch07 — agent-loop compounding (the O(K^2) tax)
+ch07: check-calc
+	$(PY) models/07-loop-compounding/loop.py
 
 clean:
 	find . -name '__pycache__' -type d -prune -exec rm -rf {} +
