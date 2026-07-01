@@ -1,6 +1,6 @@
-# deal-check — Exact financial models for AI infrastructure decisions
+# Rational — AI cost, with the vibes removed
 
-> Stop guessing your AI infra costs. Make the LLM do the modeling — but **never** the arithmetic.
+> Exact financial models for AI infrastructure decisions. Make the LLM do the modeling — but **never** the arithmetic. Live site: **[copyleftdev.github.io/rational](https://copyleftdev.github.io/rational/)**
 
 This repo is the companion to the guide *"The AI Cost Modeling Handbook."* Every number here is produced by a two-stage pipeline:
 

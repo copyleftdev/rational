@@ -227,10 +227,10 @@ Everything above, compressed to decisions:
 
 ## Reproduce it
 
-The whole thing is [a repo](https://github.com/copyleftdev/deal-check). Each chapter is a self-contained script that shells out to [`agent-calc`](https://github.com/copyleftdev/agent-calc); each input price lives in `data/` with a source URL and observation date.
+The whole thing is [a repo](https://github.com/copyleftdev/rational). Each chapter is a self-contained script that shells out to [`agent-calc`](https://github.com/copyleftdev/agent-calc); each input price lives in `data/` with a source URL and observation date.
 
 ```bash
-git clone https://github.com/copyleftdev/deal-check
+git clone https://github.com/copyleftdev/rational
 make all       # re-run every chapter
 make ch04      # or just one
 ```
