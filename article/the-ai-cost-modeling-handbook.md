@@ -43,7 +43,7 @@ The pipeline has two halves, and the whole point is that **the LLM never touches
 
 **1. Research agents gather live, cited inputs.** Token prices in 2026 move monthly — half the models in my training data are already legacy. So every price and benchmark in this guide came from a research agent doing live web search/fetch, returning a structured table with source URLs and observation dates. Those land in `data/` (`pricing.md`, `quality.md`, `gpu.md`, `frontier.md`, `decline.md`), each one auditable.
 
-**2. An exact-rational kernel does the math.** I used [`agent-calc`](https://github.com/), an AI-native computation kernel that works in exact rationals — `3/5 × 1,000,000` returns `600000`, not `599999.9999998`. It exposes typed domains: `rational`, `linear` (LP), `finance` (NPV/amortization), `solve` (algebra), `stats` (distributions), `polynomial`, `interval` (uncertainty arithmetic). Every chapter below drives a different one.
+**2. An exact-rational kernel does the math.** I used [`agent-calc`](https://github.com/copyleftdev/agent-calc), an AI-native computation kernel that works in exact rationals — `3/5 × 1,000,000` returns `600000`, not `599999.9999998`. It exposes typed domains: `rational`, `linear` (LP), `finance` (NPV/amortization), `solve` (algebra), `stats` (distributions), `polynomial`, `interval` (uncertainty arithmetic). Every chapter below drives a different one.
 
 Why bother? Because cost models are exactly where floating-point lies and LLMs fumble: tiny per-token prices, huge token counts, compounding rates. When an answer is "self-hosting breaks even at 87.2% utilization," you want that to be *computed*, not vibed. And the secret structure of this guide is that each chapter answers a money question **and** exercises one kernel domain — it's a cost-modeling handbook that doubles as a tour of exact computation.
 
@@ -227,9 +227,10 @@ Everything above, compressed to decisions:
 
 ## Reproduce it
 
-The whole thing is a repo. Each chapter is a self-contained script that shells out to `agent-calc`; each input price lives in `data/` with a source URL and observation date.
+The whole thing is [a repo](https://github.com/copyleftdev/deal-check). Each chapter is a self-contained script that shells out to [`agent-calc`](https://github.com/copyleftdev/agent-calc); each input price lives in `data/` with a source URL and observation date.
 
 ```bash
+git clone https://github.com/copyleftdev/deal-check
 make all       # re-run every chapter
 make ch04      # or just one
 ```

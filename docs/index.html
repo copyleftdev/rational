@@ -6,15 +6,16 @@
 <title>The AI Cost-Modeling Handbook — exact math, live data</title>
 <meta name="description" content="Eight AI-inference cost decisions, settled with exact-rational math and live-researched prices. The privacy wall, the reasoning-token tax, the O(K²) agent loop — every number reproducible.">
 <meta name="theme-color" content="#f7f3ea">
-<link rel="canonical" href="./">
+<link rel="canonical" href="https://copyleftdev.github.io/deal-check/">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://copyleftdev.github.io/deal-check/">
 <meta property="og:title" content="The AI Cost-Modeling Handbook">
 <meta property="og:description" content="Eight AI-inference cost decisions, settled with exact-rational math and live prices. Every number reproducible.">
-<meta property="og:image" content="assets/charts/ch01_privacy_frontier.png">
+<meta property="og:image" content="https://copyleftdev.github.io/deal-check/assets/charts/ch01_privacy_frontier.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The AI Cost-Modeling Handbook">
 <meta name="twitter:description" content="Eight AI-inference cost decisions, settled with exact math and live prices.">
-<meta name="twitter:image" content="assets/charts/ch01_privacy_frontier.png">
+<meta name="twitter:image" content="https://copyleftdev.github.io/deal-check/assets/charts/ch01_privacy_frontier.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23f7f3ea'/%3E%3Cpath d='M6 22 L13 13 L19 17 L26 7' fill='none' stroke='%23c0442a' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -247,7 +248,7 @@ noscript img{width:100%;border:1px solid var(--hair);border-radius:12px}
     <nav>
       <a class="hide" href="#findings">Findings</a>
       <a class="hide" href="#cheatsheet">Cheat sheet</a>
-      <a class="ghost" href="https://github.com/" target="_blank" rel="noopener">Get the repo ↗</a>
+      <a class="ghost" href="https://github.com/copyleftdev/deal-check" target="_blank" rel="noopener">Get the repo ↗</a>
     </nav>
   </div>
 </header>
@@ -266,7 +267,7 @@ noscript img{width:100%;border:1px solid var(--hair);border-radius:12px}
     <p class="lede fade-up">Eight inference-cost decisions every agent builder faces — settled with <b>exact-rational math</b> and <b>live-researched prices</b>. The LLM did the modeling. It never touched the arithmetic.</p>
     <div class="cta-row fade-up">
       <a class="btn btn-fill" href="#findings">See the findings ↓</a>
-      <a class="btn btn-line" href="https://github.com/" target="_blank" rel="noopener">Reproduce it</a>
+      <a class="btn btn-line" href="https://github.com/copyleftdev/deal-check" target="_blank" rel="noopener">Reproduce it</a>
     </div>
   </div>
   <div class="ticker" aria-hidden="true">
@@ -282,7 +283,7 @@ noscript img{width:100%;border:1px solid var(--hair);border-radius:12px}
     <p class="sec-lede" data-reveal>Cost models are exactly where floating-point lies and language models fumble — tiny per-token prices, enormous token counts, compounding rates. So the labor is split.</p>
     <div class="how">
       <div data-reveal class="d1"><h3><span>01</span>Research agents gather</h3><p>Live web search returns current prices and benchmarks with source URLs and observation dates. Half of 2026's models are already legacy — memory won't do.</p></div>
-      <div data-reveal class="d2"><h3><span>02</span>An exact kernel computes</h3><p>Every figure runs through <span class="mono">agent-calc</span> in exact rationals — <span class="mono">3⁄5 × 1,000,000 = 600000</span>, not 599999.99998. LP, NPV, algebra, statistics, all typed.</p></div>
+      <div data-reveal class="d2"><h3><span>02</span>An exact kernel computes</h3><p>Every figure runs through <a class="mono" href="https://github.com/copyleftdev/agent-calc" target="_blank" rel="noopener">agent-calc</a> in exact rationals — <span class="mono">3⁄5 × 1,000,000 = 600000</span>, not 599999.99998. LP, NPV, algebra, statistics, all typed.</p></div>
       <div data-reveal class="d3"><h3><span>03</span>You re-run it</h3><p>Each chapter is a script; each input price lives one file away. <span class="mono">make all</span> → bit-identical numbers. That reproducibility is the whole argument.</p></div>
     </div>
   </div>
@@ -452,11 +453,11 @@ noscript img{width:100%;border:1px solid var(--hair);border-radius:12px}
     <p class="lede" data-reveal style="opacity:1;transform:none">Every figure on this page traces to a sourced, dated file and a script that shells out to an exact-math kernel. Same inputs, bit-identical outputs — every time.</p>
     <div class="repo" data-reveal>
       <div class="cmd">
-        <div><span class="p">$</span> git clone <b>deal-check</b></div>
+        <div><span class="p">$</span> git clone <b>github.com/copyleftdev/deal-check</b></div>
         <div><span class="p">$</span> make all <span class="p"># re-run every chapter</span></div>
         <div><span class="p">$</span> make ch04 <span class="p"># or just one</span></div>
       </div>
-      <a class="btn btn-fill" href="https://github.com/" target="_blank" rel="noopener">Open the repo ↗</a>
+      <a class="btn btn-fill" href="https://github.com/copyleftdev/deal-check" target="_blank" rel="noopener">Open the repo ↗</a>
     </div>
     <noscript>
       <div class="nscharts">
