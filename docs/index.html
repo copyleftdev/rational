@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rational — the AI cost-modeling handbook</title>
-<meta name="description" content="Rational: AI cost with the vibes removed. Eight inference-cost decisions settled with exact-rational math and live-researched prices — the privacy wall, the reasoning-token tax, the O(K²) agent loop. Every number reproducible.">
+<meta name="description" content="Rational: AI cost with the vibes removed. Eight inference-cost decisions settled with exact-rational math and live-researched prices — plus a live calculator that runs your own numbers in the browser.">
 <meta name="theme-color" content="#f7f3ea">
 <link rel="canonical" href="https://copyleftdev.github.io/rational/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://copyleftdev.github.io/rational/">
 <meta property="og:title" content="Rational — the AI cost-modeling handbook">
-<meta property="og:description" content="AI cost with the vibes removed. Eight inference-cost decisions, settled with exact-rational math and live prices. Every number reproducible.">
+<meta property="og:description" content="AI cost with the vibes removed. Eight decisions, exact math, live prices, and a calculator for your own numbers.">
 <meta property="og:image" content="https://copyleftdev.github.io/rational/assets/charts/ch01_privacy_frontier.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Rational — the AI cost-modeling handbook">
-<meta name="twitter:description" content="AI cost with the vibes removed. Eight decisions, exact math, live prices.">
+<meta name="twitter:description" content="AI cost with the vibes removed. Eight decisions, exact math, and a live calculator.">
 <meta name="twitter:image" content="https://copyleftdev.github.io/rational/assets/charts/ch01_privacy_frontier.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23f7f3ea'/%3E%3Cpath d='M6 22 L13 13 L19 17 L26 7' fill='none' stroke='%23c0442a' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,260 +22,206 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:oklch(0.976 0.008 82);
-  --paper-2:oklch(0.958 0.011 78);
-  --surface:oklch(0.995 0.004 85);
-  --ink:oklch(0.245 0.017 62);
-  --ink-2:oklch(0.46 0.02 66);
-  --ink-3:oklch(0.60 0.02 70);
-  --hair:oklch(0.86 0.012 74);
-  --hair-2:oklch(0.90 0.01 76);
-  --accent:oklch(0.565 0.165 33);        /* vermilion */
-  --accent-deep:oklch(0.475 0.155 33);
-  --accent-wash:oklch(0.565 0.165 33 / 0.09);
-  --good:oklch(0.53 0.115 158);          /* emerald — winners */
-  --good-wash:oklch(0.53 0.115 158 / 0.10);
-  --space-xs:.5rem; --space-sm:.75rem; --space-md:1rem; --space-lg:1.5rem;
-  --space-xl:2rem; --space-2xl:3rem; --space-3xl:4.5rem; --space-4xl:7rem;
-  --measure:68ch;
-  --e-out:cubic-bezier(0.22,1,0.36,1);
-  --e-expo:cubic-bezier(0.16,1,0.3,1);
-  --serif:"Spectral",Georgia,serif;
-  --disp:"Bricolage Grotesque",system-ui,sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --paper:oklch(0.976 0.008 82);--paper-2:oklch(0.958 0.011 78);--surface:oklch(0.995 0.004 85);
+  --ink:oklch(0.245 0.017 62);--ink-2:oklch(0.46 0.02 66);--ink-3:oklch(0.60 0.02 70);
+  --hair:oklch(0.86 0.012 74);--hair-2:oklch(0.90 0.01 76);
+  --accent:oklch(0.565 0.165 33);--accent-deep:oklch(0.475 0.155 33);--accent-wash:oklch(0.565 0.165 33 / 0.09);
+  --good:oklch(0.53 0.115 158);--good-2:oklch(0.66 0.10 158);--good-wash:oklch(0.53 0.115 158 / 0.12);
+  --gold:oklch(0.72 0.11 75);
+  --space-xs:.5rem;--space-sm:.75rem;--space-md:1rem;--space-lg:1.5rem;--space-xl:2rem;--space-2xl:3rem;--space-3xl:4.5rem;--space-4xl:7rem;
+  --measure:68ch;--e-out:cubic-bezier(0.22,1,0.36,1);--e-expo:cubic-bezier(0.16,1,0.3,1);
+  --serif:"Spectral",Georgia,serif;--disp:"Bricolage Grotesque",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;
 }
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{
-  background:var(--paper);color:var(--ink);font-family:var(--serif);
-  font-size:clamp(1rem,0.96rem + 0.2vw,1.12rem);line-height:1.65;
-  font-feature-settings:"liga","kern";text-rendering:optimizeLegibility;
-  overflow-x:hidden;
-}
-h1,h2,h3,.disp{font-family:var(--disp);line-height:1.02;letter-spacing:-0.02em;font-weight:800}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:clamp(1rem,0.96rem + 0.2vw,1.12rem);line-height:1.65;font-feature-settings:"liga","kern";text-rendering:optimizeLegibility;overflow-x:hidden}
+h1,h2,h3,.disp{font-family:var(--disp);line-height:1.03;letter-spacing:-0.02em;font-weight:800}
 .mono{font-family:var(--mono);font-feature-settings:"tnum","zero"}
-a{color:var(--accent-deep);text-decoration:none}
-a:hover{color:var(--accent)}
+a{color:var(--accent-deep);text-decoration:none}a:hover{color:var(--accent)}
 ::selection{background:var(--accent-wash);color:var(--accent-deep)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
-
 .wrap{width:min(100% - 2.5rem, 1120px);margin-inline:auto}
-.col{width:min(100% - 2.5rem, var(--measure));margin-inline:auto}
 
-/* ---------- top bar ---------- */
-.top{position:sticky;top:0;z-index:50;backdrop-filter:saturate(1.2);
-  background:color-mix(in oklch,var(--paper) 82%,transparent);
-  border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
-.top.stuck{border-color:var(--hair);background:color-mix(in oklch,var(--paper) 92%,transparent)}
+.top{position:sticky;top:0;z-index:50;background:color-mix(in oklch,var(--paper) 82%,transparent);border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
+.top.stuck{border-color:var(--hair);background:color-mix(in oklch,var(--paper) 92%,transparent);backdrop-filter:blur(6px)}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
 .brand{display:flex;align-items:center;gap:.6rem;font-family:var(--disp);font-weight:700;letter-spacing:-0.01em;font-size:1.02rem;color:var(--ink)}
 .brand svg{width:22px;height:22px;display:block}
 .top nav{display:flex;gap:1.4rem;align-items:center;font-family:var(--mono);font-size:.78rem;letter-spacing:.02em}
-.top nav a{color:var(--ink-2)}
-.top nav a:hover{color:var(--accent)}
+.top nav a{color:var(--ink-2)}.top nav a:hover{color:var(--accent)}
 .ghost{border:1px solid var(--hair);padding:.42rem .8rem;border-radius:999px;color:var(--ink)!important;transition:border-color .2s,transform .2s var(--e-out)}
 .ghost:hover{border-color:var(--accent);transform:translateY(-1px)}
-@media(max-width:680px){.top nav .hide{display:none}}
+@media(max-width:720px){.top nav .hide{display:none}}
 
-/* ---------- hero ---------- */
 .hero{position:relative;padding:clamp(3.5rem,10vh,7rem) 0 var(--space-2xl)}
-.grid-bg{position:absolute;inset:0;z-index:0;pointer-events:none;
-  background-image:linear-gradient(var(--hair-2) 1px,transparent 1px),linear-gradient(90deg,var(--hair-2) 1px,transparent 1px);
-  background-size:52px 52px;mask-image:radial-gradient(120% 90% at 70% 0%,#000 30%,transparent 78%);
-  opacity:.5;animation:drift 40s linear infinite}
+.grid-bg{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--hair-2) 1px,transparent 1px),linear-gradient(90deg,var(--hair-2) 1px,transparent 1px);background-size:52px 52px;mask-image:radial-gradient(120% 90% at 70% 0%,#000 30%,transparent 78%);opacity:.5;animation:drift 40s linear infinite}
 @keyframes drift{to{background-position:52px 52px}}
 .hero .wrap{position:relative;z-index:1}
-.eyebrow{font-family:var(--mono);font-size:.76rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-deep);
-  display:inline-flex;align-items:center;gap:.6rem;margin-bottom:var(--space-lg)}
+.eyebrow{font-family:var(--mono);font-size:.76rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-deep);display:inline-flex;align-items:center;gap:.6rem;margin-bottom:var(--space-lg)}
 .eyebrow::before{content:"";width:26px;height:1px;background:var(--accent)}
 h1{font-size:clamp(2.6rem,6.6vw,5.4rem);max-width:16ch}
-h1 .ln{display:block;overflow:hidden}
-h1 .ln > span{display:block;transform:translateY(110%);opacity:0}
+h1 .ln{display:block;overflow:hidden}h1 .ln > span{display:block;transform:translateY(110%);opacity:0}
 .reveal-h1 h1 .ln > span{animation:rise .9s var(--e-expo) forwards}
-.reveal-h1 h1 .ln:nth-child(2) > span{animation-delay:.09s}
-.reveal-h1 h1 .ln:nth-child(3) > span{animation-delay:.18s}
+.reveal-h1 h1 .ln:nth-child(2) > span{animation-delay:.09s}.reveal-h1 h1 .ln:nth-child(3) > span{animation-delay:.18s}
 @keyframes rise{to{transform:translateY(0);opacity:1}}
 h1 em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-0.01em;color:var(--accent-deep)}
 .lede{margin-top:var(--space-xl);max-width:56ch;font-size:clamp(1.12rem,1rem + 0.6vw,1.42rem);color:var(--ink-2);line-height:1.5}
 .lede b{color:var(--ink);font-weight:600}
 .cta-row{margin-top:var(--space-xl);display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
-.btn{font-family:var(--mono);font-size:.82rem;letter-spacing:.02em;padding:.72rem 1.15rem;border-radius:999px;
-  display:inline-flex;align-items:center;gap:.55rem;transition:transform .25s var(--e-out),box-shadow .25s}
+.btn{font-family:var(--mono);font-size:.82rem;letter-spacing:.02em;padding:.72rem 1.15rem;border-radius:999px;display:inline-flex;align-items:center;gap:.55rem;transition:transform .25s var(--e-out),box-shadow .25s}
 .btn-fill{background:var(--accent);color:oklch(0.99 0.01 85)!important;box-shadow:0 1px 0 var(--accent-deep)}
 .btn-fill:hover{transform:translateY(-2px);box-shadow:0 8px 22px -10px var(--accent)}
-.btn-line{border:1px solid var(--hair);color:var(--ink)!important}
-.btn-line:hover{border-color:var(--accent);transform:translateY(-2px)}
-.fade-up{opacity:0;transform:translateY(16px)}
-.reveal-h1 .fade-up{animation:fu .8s var(--e-out) .5s forwards}
+.btn-line{border:1px solid var(--hair);color:var(--ink)!important}.btn-line:hover{border-color:var(--accent);transform:translateY(-2px)}
+.fade-up{opacity:0;transform:translateY(16px)}.reveal-h1 .fade-up{animation:fu .8s var(--e-out) .5s forwards}
 @keyframes fu{to{opacity:1;transform:none}}
 
-/* ---------- ticker ---------- */
-.ticker{margin-top:var(--space-2xl);border-block:1px solid var(--hair);background:var(--surface);
-  overflow:hidden;white-space:nowrap;position:relative;z-index:1}
+.ticker{margin-top:var(--space-2xl);border-block:1px solid var(--hair);background:var(--surface);overflow:hidden;white-space:nowrap;position:relative;z-index:1}
 .ticker::before,.ticker::after{content:"";position:absolute;top:0;bottom:0;width:70px;z-index:2}
 .ticker::before{left:0;background:linear-gradient(90deg,var(--surface),transparent)}
 .ticker::after{right:0;background:linear-gradient(270deg,var(--surface),transparent)}
 .track{display:inline-flex;gap:2.4rem;padding:.7rem 1.2rem;animation:scroll 42s linear infinite;will-change:transform}
 .ticker:hover .track{animation-play-state:paused}
 .tk{font-family:var(--mono);font-size:.8rem;color:var(--ink-2);display:inline-flex;gap:.5rem;align-items:center}
-.tk b{color:var(--ink)}
-.tk .up{color:var(--accent)} .tk .dn{color:var(--good)}
+.tk b{color:var(--ink)}.tk .up{color:var(--accent)}.tk .dn{color:var(--good)}
 @keyframes scroll{to{transform:translateX(-50%)}}
 
-/* ---------- sections ---------- */
 section{padding:var(--space-3xl) 0;position:relative}
 .band{background:var(--paper-2)}
 .kicker{font-family:var(--mono);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:var(--space-md)}
 h2{font-size:clamp(1.9rem,1.4rem + 2.2vw,3.2rem);max-width:18ch}
 .sec-lede{margin-top:var(--space-md);max-width:60ch;color:var(--ink-2);font-size:1.08rem}
 
-/* how it works */
 .how{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-lg);margin-top:var(--space-2xl)}
 .how div{padding:var(--space-lg) 0;border-top:1px solid var(--hair)}
-.how h3{font-size:1.15rem;font-family:var(--disp);font-weight:700;margin-bottom:.4rem;display:flex;gap:.6rem;align-items:baseline}
+.how h3{font-size:1.15rem;font-weight:700;margin-bottom:.4rem;display:flex;gap:.6rem;align-items:baseline}
 .how h3 span{font-family:var(--mono);font-size:.8rem;color:var(--accent-deep)}
 .how p{color:var(--ink-2);font-size:.98rem;max-width:44ch}
 
-/* finding layout */
 .finding{display:grid;grid-template-columns:1fr;gap:var(--space-2xl);align-items:center}
-@media(min-width:900px){
-  .finding{grid-template-columns:0.92fr 1.08fr;gap:var(--space-3xl)}
-  .finding.flip .txt{order:2}
-  .finding.flip .viz{order:1}
-}
-.num{font-family:var(--disp);font-weight:800;font-size:.9rem;color:var(--accent);letter-spacing:.04em;
-  display:inline-flex;align-items:center;gap:.55rem;margin-bottom:var(--space-md)}
+@media(min-width:920px){.finding{grid-template-columns:0.86fr 1.14fr;gap:var(--space-3xl)}.finding.flip .txt{order:2}.finding.flip .viz{order:1}}
+.num{font-family:var(--disp);font-weight:800;font-size:.9rem;color:var(--accent);letter-spacing:.04em;display:inline-flex;align-items:center;gap:.55rem;margin-bottom:var(--space-md)}
 .num::before{content:"";width:34px;height:2px;background:var(--accent)}
-.finding h3{font-size:clamp(1.5rem,1.2rem + 1.4vw,2.3rem);font-family:var(--disp);font-weight:800;max-width:16ch}
-.finding .take{margin-top:var(--space-md);color:var(--ink-2);max-width:46ch}
-.finding .take b{color:var(--ink);font-weight:600}
+.finding h3{font-size:clamp(1.5rem,1.2rem + 1.4vw,2.3rem);font-weight:800;max-width:16ch}
+.finding .take{margin-top:var(--space-md);color:var(--ink-2);max-width:46ch}.finding .take b{color:var(--ink);font-weight:600}
+.live-tag{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--good);border:1px solid color-mix(in oklch,var(--good) 40%,transparent);padding:.2rem .5rem;border-radius:999px;margin-top:var(--space-md)}
+.live-tag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--good);animation:pulse 2s var(--e-out) infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .stat{margin-top:var(--space-lg);display:flex;gap:var(--space-xl);flex-wrap:wrap}
 .stat .s{display:flex;flex-direction:column;gap:.15rem}
-.stat .v{font-family:var(--disp);font-weight:800;font-size:clamp(1.8rem,1.4rem + 1.6vw,2.6rem);line-height:1;color:var(--ink)}
-.stat .v.acc{color:var(--accent)} .stat .v.good{color:var(--good)}
+.stat .v{font-family:var(--disp);font-weight:800;font-size:clamp(1.7rem,1.3rem + 1.5vw,2.4rem);line-height:1;color:var(--ink)}
+.stat .v.acc{color:var(--accent)}.stat .v.good{color:var(--good)}
 .stat .l{font-family:var(--mono);font-size:.72rem;letter-spacing:.03em;color:var(--ink-3);text-transform:uppercase}
 
-/* viz card */
-.viz{background:var(--surface);border:1px solid var(--hair);border-radius:16px;padding:var(--space-lg);
-  box-shadow:0 1px 2px oklch(0.4 0.02 60 / .04),0 18px 40px -28px oklch(0.4 0.05 40 / .18)}
-.viz .cap{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);margin-top:var(--space-sm);letter-spacing:.02em}
+.viz{background:var(--surface);border:1px solid var(--hair);border-radius:16px;padding:var(--space-lg);box-shadow:0 1px 2px oklch(0.4 0.02 60 / .04),0 18px 40px -28px oklch(0.4 0.05 40 / .18)}
+.viz .cap{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);margin-top:var(--space-sm);letter-spacing:.01em;line-height:1.5}
+.viz .legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.6rem;font-family:var(--mono);font-size:.7rem;color:var(--ink-2)}
+.viz .legend span{display:inline-flex;align-items:center;gap:.35rem}
+.viz .legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
 svg.chart{width:100%;height:auto;display:block;overflow:visible}
 .ax{stroke:var(--hair);stroke-width:1}
 .axtxt{font-family:var(--mono);font-size:11px;fill:var(--ink-3)}
+.axlab{font-family:var(--mono);font-size:10.5px;fill:var(--ink-3);letter-spacing:.04em}
 .gl{stroke:var(--hair-2);stroke-width:1;stroke-dasharray:2 4}
 .line{fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
-.dot{opacity:0;transition:opacity .4s var(--e-out)}
-.drawn .dot{opacity:1}
+.dot{transition:opacity .4s var(--e-out)}
 .trace{stroke-dasharray:var(--len);stroke-dashoffset:var(--len)}
-.drawn .trace{transition:stroke-dashoffset 1.5s var(--e-out);stroke-dashoffset:0}
-.area{opacity:0;transition:opacity .9s var(--e-out) .5s}
-.drawn .area{opacity:1}
-.wall{opacity:0;transform-box:fill-box;transform-origin:left;transform:scaleX(.6);transition:opacity .5s var(--e-out) 1.2s,transform .6s var(--e-expo) 1.2s}
-.drawn .wall{opacity:1;transform:scaleX(1)}
-.walltxt{opacity:0;transition:opacity .4s 1.4s} .drawn .walltxt{opacity:1}
+.drawn .trace{transition:stroke-dashoffset 1.4s var(--e-out);stroke-dashoffset:0}
+.reveal-el{opacity:0;transition:opacity .7s var(--e-out),transform .7s var(--e-out)}
+.drawn .reveal-el{opacity:1}
+.grow-x{transform:scaleX(0);transform-origin:left;transition:transform 1s var(--e-out)}
+.drawn .grow-x{transform:scaleX(1)}
+.grow-y{transform:scaleY(0);transform-origin:bottom;transition:transform .9s var(--e-out)}
+.drawn .grow-y{transform:scaleY(1)}
 
-/* bar chart */
-.bars{display:flex;flex-direction:column;gap:.7rem;margin-top:.3rem}
-.bar{display:grid;grid-template-columns:1fr;gap:.28rem}
-.bar .bl{display:flex;justify-content:space-between;font-size:.86rem}
-.bar .bl .nm{color:var(--ink)}
-.bar .bl .vl{font-family:var(--mono);font-size:.8rem;color:var(--ink-2)}
-.bar .tr{height:12px;background:var(--paper-2);border-radius:7px;overflow:hidden}
-.bar .fl{height:100%;border-radius:7px;background:var(--accent);transform:scaleX(0);transform-origin:left;
-  transition:transform 1.05s var(--e-out)}
-.drawn .bar .fl{transform:scaleX(var(--w))}
-.bar.win .fl{background:var(--good)}
-.bar.win .bl .nm{color:var(--good);font-weight:600}
-.bar .fl{transition-delay:calc(var(--i)*90ms)}
+/* ---------- calculator ---------- */
+.calc-shell{background:var(--ink);color:var(--paper);border-radius:20px;overflow:hidden;box-shadow:0 30px 60px -30px oklch(0.3 0.05 40 / .5)}
+.calc-head{padding:clamp(1.4rem,3vw,2rem) clamp(1.4rem,3vw,2.2rem) 0}
+.calc-head .kicker{color:var(--gold)}
+.calc-head h2{color:var(--paper);max-width:22ch}
+.calc-head p{color:oklch(0.82 0.02 78);margin-top:.6rem;max-width:60ch;font-size:1rem}
+.calc-body{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:900px){.calc-body{grid-template-columns:0.95fr 1.05fr}}
+.controls{padding:clamp(1.4rem,3vw,2rem)}
+.cgroup{margin-bottom:1.4rem}
+.cgroup > .gl-t{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
+.ctrl{margin-bottom:1rem}
+.ctrl .row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.35rem}
+.ctrl label{font-size:.9rem;color:oklch(0.88 0.015 80);font-family:var(--serif)}
+.ctrl .val{font-family:var(--mono);font-size:.85rem;color:var(--paper);font-weight:500}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:999px;background:oklch(0.4 0.02 70);outline-offset:4px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid var(--ink);box-shadow:0 0 0 1px var(--accent);transition:transform .15s var(--e-out)}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid var(--ink)}
+select{width:100%;font-family:var(--mono);font-size:.85rem;background:oklch(0.32 0.02 65);color:var(--paper);border:1px solid oklch(0.42 0.02 68);border-radius:9px;padding:.6rem .7rem;cursor:pointer}
+select:focus{border-color:var(--gold)}
+.outs{background:oklch(0.30 0.018 64);padding:clamp(1.4rem,3vw,2rem);display:grid;grid-template-columns:repeat(2,1fr);gap:1px;align-content:start}
+.out{background:var(--ink);padding:1.1rem 1.15rem}
+.out .ov{font-family:var(--disp);font-weight:800;font-size:clamp(1.5rem,1.2rem + 1vw,2rem);line-height:1;transition:color .3s}
+.out .ov.g{color:var(--good-2)}.out .ov.a{color:oklch(0.72 0.15 40)}.out .ov.n{color:var(--paper)}
+.out .ol{font-family:var(--mono);font-size:.66rem;letter-spacing:.03em;text-transform:uppercase;color:oklch(0.70 0.02 78);margin-top:.4rem;line-height:1.4}
+.out .osub{font-size:.72rem;color:oklch(0.60 0.02 78);margin-top:.2rem;font-family:var(--mono)}
+.calc-foot{padding:1rem clamp(1.4rem,3vw,2rem);border-top:1px solid oklch(0.4 0.02 68);font-family:var(--mono);font-size:.72rem;color:oklch(0.66 0.02 78);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+@media(max-width:520px){.outs{grid-template-columns:1fr}}
 
-/* vertical bars (npv) */
-.vbars{display:flex;align-items:flex-end;gap:var(--space-lg);height:230px;padding-top:10px}
-.vbar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:.5rem}
-.vbar .col{width:100%;max-width:92px;border-radius:8px 8px 0 0;background:var(--ink);transform:scaleY(0);transform-origin:bottom;
-  transition:transform 1s var(--e-out) calc(var(--i)*120ms)}
-.drawn .vbar .col{transform:scaleY(var(--h))}
-.vbar.good .col{background:var(--good)} .vbar.bad .col{background:var(--accent)}
-.vbar .cv{font-family:var(--disp);font-weight:800;font-size:1.05rem}
-.vbar .cl{font-family:var(--mono);font-size:.68rem;color:var(--ink-3);text-align:center;line-height:1.3;max-width:14ch}
+/* heatmap (ch05) */
+.heat{display:grid;grid-template-columns:auto repeat(3,1fr);gap:5px;font-family:var(--mono)}
+.heat .hh{font-size:.72rem;color:var(--ink-3);display:flex;align-items:center;justify-content:center;text-align:center;padding:.3rem}
+.heat .hc{aspect-ratio:1.9;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ink);opacity:0;transform:scale(.9);transition:opacity .5s var(--e-out),transform .5s var(--e-out)}
+.drawn .heat .hc{opacity:1;transform:none}
+.heat .hc b{font-family:var(--disp);font-size:1.15rem;font-weight:800}
+.heat .hc small{font-size:.6rem;opacity:.7}
+.heat .rl{font-size:.72rem;color:var(--ink-3);display:flex;align-items:center;justify-content:flex-end;padding-right:.4rem;text-align:right}
 
-/* cheat sheet */
 .sheet{margin-top:var(--space-2xl);border-top:2px solid var(--ink)}
-.row{display:grid;grid-template-columns:0.9fr 1.6fr;gap:var(--space-lg);padding:var(--space-lg) 0;border-bottom:1px solid var(--hair);
-  opacity:0;transform:translateY(14px)}
+.row{display:grid;grid-template-columns:0.9fr 1.6fr;gap:var(--space-lg);padding:var(--space-lg) 0;border-bottom:1px solid var(--hair);opacity:0;transform:translateY(14px)}
 .row.in{animation:fu .6s var(--e-out) forwards}
 .row .q{font-family:var(--disp);font-weight:700;font-size:1.1rem}
-.row .a{color:var(--ink-2)} .row .a b{color:var(--accent-deep);font-weight:600}
+.row .a{color:var(--ink-2)}.row .a b{color:var(--accent-deep);font-weight:600}
 @media(max-width:640px){.row{grid-template-columns:1fr;gap:.3rem}}
 
-/* closing */
-.close{padding:var(--space-4xl) 0}
-.close h2{max-width:20ch}
-.close .lede{margin-top:var(--space-lg)}
-.repo{margin-top:var(--space-2xl);background:var(--ink);color:var(--paper);border-radius:16px;padding:clamp(1.4rem,3vw,2.4rem);
-  display:flex;justify-content:space-between;gap:var(--space-xl);flex-wrap:wrap;align-items:center}
-.repo .cmd{font-family:var(--mono);font-size:.92rem}
-.repo .cmd .p{color:oklch(0.72 0.03 78)} .repo .cmd b{color:oklch(0.85 0.14 60)}
-.repo .cmd div{margin:.2rem 0}
-.repo .btn-fill{background:var(--accent)}
+.close{padding:var(--space-4xl) 0}.close h2{max-width:20ch}
+.repo{margin-top:var(--space-2xl);background:var(--ink);color:var(--paper);border-radius:16px;padding:clamp(1.4rem,3vw,2.4rem);display:flex;justify-content:space-between;gap:var(--space-xl);flex-wrap:wrap;align-items:center}
+.repo .cmd{font-family:var(--mono);font-size:.92rem}.repo .cmd .p{color:oklch(0.72 0.03 78)}.repo .cmd b{color:oklch(0.85 0.14 60)}.repo .cmd div{margin:.2rem 0}
 footer{padding:var(--space-2xl) 0 var(--space-3xl);border-top:1px solid var(--hair);color:var(--ink-3);font-family:var(--mono);font-size:.78rem}
-footer .wrap{display:flex;justify-content:space-between;gap:var(--space-md);flex-wrap:wrap}
-footer a{color:var(--ink-2)}
+footer .wrap{display:flex;justify-content:space-between;gap:var(--space-md);flex-wrap:wrap}footer a{color:var(--ink-2)}
 
-/* generic reveal */
 [data-reveal]{opacity:0;transform:translateY(22px);transition:opacity .7s var(--e-out),transform .7s var(--e-out)}
 [data-reveal].in{opacity:1;transform:none}
-[data-reveal].d1{transition-delay:.08s}[data-reveal].d2{transition-delay:.16s}[data-reveal].d3{transition-delay:.24s}
-
-noscript .nscharts{display:grid;gap:var(--space-lg);margin-top:var(--space-xl)}
-noscript img{width:100%;border:1px solid var(--hair);border-radius:12px}
-
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-  h1 .ln>span{transform:none;opacity:1}
-  .grid-bg{animation:none}.track{animation:none}
-  [data-reveal]{opacity:1;transform:none}
-}
+[data-reveal].d1{transition-delay:.08s}[data-reveal].d2{transition-delay:.16s}
+noscript .nscharts{display:grid;gap:var(--space-lg);margin-top:var(--space-xl)}noscript img{width:100%;border:1px solid var(--hair);border-radius:12px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}h1 .ln>span{transform:none;opacity:1}.grid-bg,.track{animation:none}[data-reveal]{opacity:1;transform:none}}
 </style>
 </head>
 <body>
-
 <header class="top" id="top">
   <div class="wrap">
     <a class="brand" href="#top" aria-label="Rational home">
-      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="none"/><path d="M5 22 L13 13 L19 17 L27 6" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 22 L13 13 L19 17 L27 6" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Rational
     </a>
     <nav>
+      <a class="hide" href="#calc">Calculator</a>
       <a class="hide" href="#findings">Findings</a>
-      <a class="hide" href="#cheatsheet">Cheat sheet</a>
       <a class="ghost" href="https://github.com/copyleftdev/rational" target="_blank" rel="noopener">Get the repo ↗</a>
     </nav>
   </div>
 </header>
 
 <main>
-<!-- HERO -->
 <section class="hero" id="hero">
   <div class="grid-bg" aria-hidden="true"></div>
   <div class="wrap">
     <span class="eyebrow">Rational · the AI cost-modeling handbook</span>
-    <h1>
-      <span class="ln"><span>Stop guessing</span></span>
-      <span class="ln"><span>your AI costs.</span></span>
-      <span class="ln"><span><em>Do the math.</em></span></span>
-    </h1>
-    <p class="lede fade-up">Eight inference-cost decisions every agent builder faces — settled with <b>exact-rational math</b> and <b>live-researched prices</b>. The LLM did the modeling. It never touched the arithmetic.</p>
+    <h1><span class="ln"><span>Stop guessing</span></span><span class="ln"><span>your AI costs.</span></span><span class="ln"><span><em>Do the math.</em></span></span></h1>
+    <p class="lede fade-up">Eight inference-cost decisions every agent builder faces — settled with <b>exact-rational math</b> and <b>live-researched prices</b>. Then a <b>calculator</b> that runs your own numbers, in the browser, exactly.</p>
     <div class="cta-row fade-up">
-      <a class="btn btn-fill" href="#findings">See the findings ↓</a>
-      <a class="btn btn-line" href="https://github.com/copyleftdev/rational" target="_blank" rel="noopener">Reproduce it</a>
+      <a class="btn btn-fill" href="#calc">Run your numbers ↓</a>
+      <a class="btn btn-line" href="#findings">Read the findings</a>
     </div>
   </div>
-  <div class="ticker" aria-hidden="true">
-    <div class="track" id="ticker"></div>
-  </div>
+  <div class="ticker" aria-hidden="true"><div class="track" id="ticker"></div></div>
 </section>
 
-<!-- HOW -->
 <section id="how">
   <div class="wrap">
     <p class="kicker" data-reveal>How this was built</p>
@@ -283,160 +229,232 @@ noscript img{width:100%;border:1px solid var(--hair);border-radius:12px}
     <p class="sec-lede" data-reveal>Cost models are exactly where floating-point lies and language models fumble — tiny per-token prices, enormous token counts, compounding rates. So the labor is split.</p>
     <div class="how">
       <div data-reveal class="d1"><h3><span>01</span>Research agents gather</h3><p>Live web search returns current prices and benchmarks with source URLs and observation dates. Half of 2026's models are already legacy — memory won't do.</p></div>
-      <div data-reveal class="d2"><h3><span>02</span>An exact kernel computes</h3><p>Every figure runs through <a class="mono" href="https://github.com/copyleftdev/agent-calc" target="_blank" rel="noopener">agent-calc</a> in exact rationals — <span class="mono">3⁄5 × 1,000,000 = 600000</span>, not 599999.99998. LP, NPV, algebra, statistics, all typed.</p></div>
-      <div data-reveal class="d3"><h3><span>03</span>You re-run it</h3><p>Each chapter is a script; each input price lives one file away. <span class="mono">make all</span> → bit-identical numbers. That reproducibility is the whole argument.</p></div>
+      <div data-reveal class="d2"><h3><span>02</span>An exact kernel computes</h3><p>Every figure runs through <a class="mono" href="https://github.com/copyleftdev/agent-calc" target="_blank" rel="noopener">agent-calc</a> in exact rationals. The calculator below mirrors it with exact BigInt fractions — no float drift, in your browser.</p></div>
+      <div data-reveal><h3><span>03</span>You re-run it</h3><p>Every chart reacts to your inputs; the whole repo reproduces with <span class="mono">make all</span>. Same inputs → bit-identical numbers. That's the argument.</p></div>
     </div>
   </div>
 </section>
 
-<!-- COLD OPEN: ranking -->
+<!-- CALCULATOR -->
+<section id="calc">
+  <div class="wrap">
+    <div class="calc-shell" data-reveal>
+      <div class="calc-head">
+        <p class="kicker">Make it yours</p>
+        <h2>Run your own numbers.</h2>
+        <p>Set your workload and provider. Every output — and the charts marked <b style="color:var(--good-2)">live</b> below — recomputes instantly in exact rational arithmetic.</p>
+      </div>
+      <div class="calc-body">
+        <div class="controls">
+          <div class="cgroup">
+            <div class="gl-t">Workload</div>
+            <div class="ctrl"><div class="row"><label for="c-vol">Monthly volume</label><span class="val" id="v-vol"></span></div><input type="range" id="c-vol" min="10" max="5000" step="10" value="1000"></div>
+            <div class="ctrl"><div class="row"><label for="c-in">Input share of tokens</label><span class="val" id="v-in"></span></div><input type="range" id="c-in" min="50" max="95" step="1" value="85"></div>
+            <div class="ctrl"><div class="row"><label for="c-cache">Input cache-hit rate</label><span class="val" id="v-cache"></span></div><input type="range" id="c-cache" min="0" max="95" step="1" value="75"></div>
+          </div>
+          <div class="cgroup">
+            <div class="gl-t">Per task</div>
+            <div class="ctrl"><div class="row"><label for="c-ti">Input tokens / call</label><span class="val" id="v-ti"></span></div><input type="range" id="c-ti" min="1000" max="32000" step="500" value="8000"></div>
+            <div class="ctrl"><div class="row"><label for="c-to">Output tokens / call</label><span class="val" id="v-to"></span></div><input type="range" id="c-to" min="100" max="4000" step="50" value="600"></div>
+            <div class="ctrl"><div class="row"><label for="c-k">Reasoning multiplier k</label><span class="val" id="v-k"></span></div><input type="range" id="c-k" min="0" max="20" step="1" value="4"></div>
+            <div class="ctrl"><div class="row"><label for="c-steps">Agent loop length (steps)</label><span class="val" id="v-steps"></span></div><input type="range" id="c-steps" min="1" max="100" step="1" value="30"></div>
+          </div>
+          <div class="cgroup">
+            <div class="gl-t">Models</div>
+            <div class="ctrl"><div class="row"><label for="c-prov">Primary (open-weights)</label></div><select id="c-prov"></select></div>
+            <div class="ctrl"><div class="row"><label for="c-fb">Premium fallback</label></div><select id="c-fb"></select></div>
+          </div>
+        </div>
+        <div class="outs" id="outs"></div>
+      </div>
+      <div class="calc-foot">
+        <span>exact rational arithmetic · BigInt fractions · mirrors agent-calc</span>
+        <span id="calc-blend"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLD OPEN: Pareto -->
 <section class="band" id="findings">
   <div class="wrap">
     <div class="finding">
       <div class="txt">
         <span class="num">Cold open</span>
         <h3>The cheapest way to drive an agent</h3>
-        <p class="take">Not cheapest <em>per token</em> — cheapest <b>per unit of quality</b>. A model that flubs tool calls and retries costs more than a pricier reliable one. Blended cost ÷ agentic quality, open-weights only.</p>
+        <p class="take">Not cheapest <em>per token</em> — cheapest <b>per unit of quality</b>. On a cost×quality plane, the winner sits on the efficient frontier (bottom-right); everything up-and-left is dominated. Diagonals are equal cost-per-quality.</p>
+        <span class="live-tag">Live · reflects your workload</span>
         <div class="stat">
-          <div class="s"><span class="v good" data-count="1.49" data-dp="2">0</span><span class="l">DeepSeek V3.2 · $/quality</span></div>
-          <div class="s"><span class="v" data-count="8" data-suffix="×">0</span><span class="l">costlier: the worst option</span></div>
+          <div class="s"><span class="v good" id="pareto-win">—</span><span class="l" id="pareto-win-l">best $/quality</span></div>
+          <div class="s"><span class="v" id="pareto-worst">—</span><span class="l">costlier: the worst option</span></div>
         </div>
       </div>
-      <div class="viz" data-chart="rank" data-reveal>
-        <div class="bars" id="rankBars"></div>
-        <p class="cap">Cost per quality unit (lower is better) · $/1M ÷ agentic score. Emerald = winner.</p>
+      <div class="viz" data-chart="pareto" data-reveal>
+        <svg class="chart" viewBox="0 0 640 380" role="img" aria-label="Cost versus quality scatter with an efficient frontier"></svg>
+        <div class="legend"><span><i style="background:var(--good)"></i>on the frontier</span><span><i style="background:var(--ink-3)"></i>dominated</span><span><i style="background:var(--hair);border:1px dashed var(--ink-3)"></i>equal $/quality</span></div>
+        <p class="cap">Blended $/1M (y) vs agentic quality (x). Lower-right is better.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CH1 frontier -->
+<!-- CH1 frontier + allocation -->
 <section>
   <div class="wrap">
     <div class="finding flip">
       <div class="txt">
         <span class="num">Chapter 01 · routing</span>
         <h3>The cost-of-privacy frontier</h3>
-        <p class="take">Blend traffic across providers with a linear program. The first 40% of US-jurisdiction routing is <b>free</b> — but demand more and cost climbs convexly, until it hits a wall.</p>
+        <p class="take">Blend traffic with a linear program. As you demand more US-jurisdiction routing (θ), cost climbs — and the optimal <b>mix</b> shifts, leaning on ever-worse fillers until the blend becomes infeasible.</p>
         <div class="stat">
-          <div class="s"><span class="v acc" data-count="87.2" data-dp="1" data-suffix="%">0</span><span class="l">the hard privacy wall</span></div>
-          <div class="s"><span class="v" data-count="40" data-suffix="%">0</span><span class="l">US traffic that costs nothing</span></div>
+          <div class="s"><span class="v acc">87.2%</span><span class="l">the hard privacy wall</span></div>
+          <div class="s"><span class="v">40%</span><span class="l">US traffic that costs nothing</span></div>
         </div>
       </div>
       <div class="viz" data-chart="frontier" data-reveal>
-        <svg class="chart" viewBox="0 0 640 340" role="img" aria-label="Cost rises with the US-jurisdiction floor and becomes infeasible beyond 87.2 percent"></svg>
-        <p class="cap">min cost ($/mo @ 1B tokens) vs US-jurisdiction floor θ.</p>
+        <svg class="chart" viewBox="0 0 640 400" role="img" aria-label="Cost line above a stacked allocation-mix area, versus the US floor"></svg>
+        <div class="legend" id="frontier-leg"></div>
+        <p class="cap">Top: min cost $/mo @ 1B. Bottom: optimal provider mix as θ rises.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CH2 breakeven -->
+<!-- CH2 crossover -->
 <section class="band">
   <div class="wrap">
     <div class="finding">
       <div class="txt">
         <span class="num">Chapter 02 · self-host</span>
         <h3>Renting GPUs almost never wins</h3>
-        <p class="take">It's not a dollar break-even — it's a <b>utilization</b> one. A node costs the same idle or busy. Above 100%, self-hosting loses even at full tilt. Only owned Blackwell, kept busy, beats a $0.20/1M API.</p>
+        <p class="take">The classic break-even: the API cost is a <b>ray</b> that grows with volume; a self-hosted node is a <b>flat line</b>. They cross only if the ray climbs above the node before you hit the node's capacity ceiling.</p>
+        <span class="live-tag">Live · uses your API price &amp; volume</span>
         <div class="stat">
-          <div class="s"><span class="v good" data-count="72" data-suffix="%">0</span><span class="l">the only config that wins</span></div>
-          <div class="s"><span class="v acc" data-count="531" data-suffix="%">0</span><span class="l">worst case break-even u*</span></div>
+          <div class="s"><span class="v good" id="be-cross">—</span><span class="l">B200-owned crossover volume</span></div>
+          <div class="s"><span class="v acc">72%</span><span class="l">min utilization to win</span></div>
         </div>
       </div>
-      <div class="viz" data-chart="breakeven" data-reveal>
-        <div class="bars" id="beBars"></div>
-        <p class="cap">Break-even utilization u* — must exceed to beat the API. Past 100% = never. Emerald = wins.</p>
+      <div class="viz" data-chart="crossover" data-reveal>
+        <svg class="chart" viewBox="0 0 640 360" role="img" aria-label="API cost ray crossing flat self-host node lines"></svg>
+        <div class="legend"><span><i style="background:var(--accent)"></i>API (your price)</span><span><i style="background:var(--good)"></i>8×B200 owned</span><span><i style="background:var(--ink-3)"></i>8×H200 owned</span></div>
+        <p class="cap">$/mo vs monthly volume. Node lines end at each box's capacity.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CH3 tax -->
+<!-- CH3 decomposition -->
 <section>
   <div class="wrap">
     <div class="finding flip">
       <div class="txt">
         <span class="num">Chapter 03 · reasoning tax</span>
         <h3>Thinking tokens you pay for twice</h3>
-        <p class="take">Reasoning models bill hidden thinking tokens at the output rate. Measured in cost per <em>solved</em> task, a heavy reasoner can be mathematically uncatchable: R1 would need a <b>627% success rate</b> to match the champion.</p>
+        <p class="take">Break each model's cost-per-solved into its parts: input, visible output, hidden <b>thinking</b>, and the <b>retry</b> overhead of an imperfect success rate. The tax is the slice you can now point at.</p>
+        <span class="live-tag">Live · uses your task shape &amp; k</span>
         <div class="stat">
-          <div class="s"><span class="v acc" data-count="11.6" data-dp="1" data-suffix="×">0</span><span class="l">R1 vs champion, per solved task</span></div>
-          <div class="s"><span class="v" data-count="2.6" data-dp="1" data-suffix="×">0</span><span class="l">still costlier at zero thinking</span></div>
+          <div class="s"><span class="v acc" id="tax-x">—</span><span class="l">R1 vs champion, per solved task</span></div>
+          <div class="s"><span class="v" id="tax-think">—</span><span class="l">thinking + retry share, R1</span></div>
         </div>
       </div>
-      <div class="viz" data-chart="tax" data-reveal>
-        <svg class="chart" viewBox="0 0 640 340" role="img" aria-label="Reasoning cost climbs with thinking burn, always far above the champion line"></svg>
-        <p class="cap">Cost per solved task (milli-$) as reasoning burn k grows.</p>
+      <div class="viz" data-chart="decomp" data-reveal>
+        <svg class="chart" viewBox="0 0 640 380" role="img" aria-label="Stacked cost-per-solved bars decomposed by component"></svg>
+        <div class="legend"><span><i style="background:var(--ink-2)"></i>input</span><span><i style="background:var(--good)"></i>output</span><span><i style="background:var(--accent)"></i>thinking</span><span><i style="background:var(--accent-wash)"></i>retry overhead</span></div>
+        <p class="cap">Cost per solved task (milli-$), decomposed. Lower is better.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CH4 cascade -->
+<!-- CH4 funnel -->
 <section class="band">
   <div class="wrap">
     <div class="finding">
       <div class="txt">
         <span class="num">Chapter 04 · cascade</span>
         <h3>Cheap first, escalate rarely</h3>
-        <p class="take">Run a cheap model on everything; escalate the residual failures to a frontier model. Three tiers reach <b>99.5% coverage</b> at a sixth of frontier-only cost — because 95.6% of tasks never reach the top tier.</p>
+        <p class="take">Watch 1,000 tasks flow through the tiers. The cheap model clears the bulk; only the residue escalates. Three tiers reach <b>99.5% coverage</b> while 95.6% of tasks never touch the frontier model.</p>
         <div class="stat">
-          <div class="s"><span class="v good" data-count="99.5" data-dp="1" data-suffix="%">0</span><span class="l">3-tier coverage</span></div>
-          <div class="s"><span class="v" data-count="6" data-suffix="×">0</span><span class="l">cheaper than frontier-only</span></div>
+          <div class="s"><span class="v good">99.5%</span><span class="l">3-tier coverage</span></div>
+          <div class="s"><span class="v">6×</span><span class="l">cheaper than frontier-only</span></div>
         </div>
       </div>
-      <div class="viz" data-chart="cascade" data-reveal>
-        <svg class="chart" viewBox="0 0 640 340" role="img" aria-label="Cascades sit down and to the right: higher coverage at lower cost"></svg>
-        <p class="cap">Cost per solved task vs coverage. Down-and-right is best.</p>
+      <div class="viz" data-chart="funnel" data-reveal>
+        <svg class="chart" viewBox="0 0 640 360" role="img" aria-label="Sankey flow of 1000 tasks solved across three tiers"></svg>
+        <div class="legend"><span><i style="background:var(--good)"></i>solved cheap</span><span><i style="background:var(--good-2)"></i>solved mid</span><span><i style="background:var(--accent)"></i>solved top</span><span><i style="background:var(--ink-3)"></i>unsolved</span></div>
+        <p class="cap">1,000 tasks · width = task count · labels show escalation.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CH5 npv -->
+<!-- CH5 heatmap -->
 <section>
   <div class="wrap">
     <div class="finding flip">
       <div class="txt">
         <span class="num">Chapter 05 · commit vs wait</span>
         <h3>Never lock in a falling price</h3>
-        <p class="take">Commodity token prices fall ~80%/yr — faster than any reservable discount. So for commodity models, waiting always wins; commit only where prices are <b>sticky</b> (frontier), and never for three years.</p>
+        <p class="take">The break-even decline rate for every discount × term. Prices must fall <em>slower</em> than a cell's value for committing to pay. Commodity prices fall ~80%/yr — above every cell. So you never commit.</p>
         <div class="stat">
-          <div class="s"><span class="v good" data-count="23" data-suffix="%">0</span><span class="l">saved by waiting (commodity)</span></div>
-          <div class="s"><span class="v acc" data-count="80" data-suffix="%/yr">0</span><span class="l">commodity price decline</span></div>
+          <div class="s"><span class="v good">23%</span><span class="l">saved by waiting (commodity)</span></div>
+          <div class="s"><span class="v acc">80%/yr</span><span class="l">commodity price decline</span></div>
         </div>
       </div>
-      <div class="viz" data-chart="npv" data-reveal>
-        <div class="vbars" id="npvBars"></div>
-        <p class="cap">12-month NPV cost (lower is better). Ink = commit; emerald/vermilion = pay-go.</p>
+      <div class="viz" data-chart="heat" data-reveal>
+        <div class="heat" id="heat"></div>
+        <div class="legend"><span><i style="background:var(--good-wash)"></i>waiting wins vs 80%/yr</span><span><i style="background:var(--accent-wash)"></i>commit can win vs 30%/yr frontier</span></div>
+        <p class="cap">Break-even annual decline g*. Commit wins only where prices fall slower than the cell.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CH6 cache + CH7 quadratic combined band -->
+<!-- CH6 cache curves -->
 <section class="band">
   <div class="wrap">
     <div class="finding">
       <div class="txt">
-        <span class="num">Chapters 06 – 07 · the agent loop</span>
-        <h3>Why agents are quadratic — and cacheable</h3>
-        <p class="take">An agent re-sends its growing context every step, so cumulative input is <b>O(K²)</b>. Caching halves the constant; only compaction breaks the curve. And caching pays from the <b>2nd–3rd call</b> — which is why 63.75% of the workload bills at the cached rate.</p>
+        <span class="num">Chapter 06 · prompt caching</span>
+        <h3>Caching pays from the second call</h3>
+        <p class="take">Savings vs reuse count, per provider. Each line crosses zero at its break-even, then rises toward a ceiling set by the cache-<em>read</em> multiplier — 90% for 0.1× readers, 50% for 0.5×.</p>
         <div class="stat">
-          <div class="s"><span class="v acc" data-count="56" data-suffix="×">0</span><span class="l">tokens: 100 steps vs 10</span></div>
-          <div class="s"><span class="v good" data-count="90" data-suffix="%">0</span><span class="l">max input saved by caching</span></div>
+          <div class="s"><span class="v good">2–3</span><span class="l">calls to break even</span></div>
+          <div class="s"><span class="v">90%</span><span class="l">max input saved</span></div>
+        </div>
+      </div>
+      <div class="viz" data-chart="cache" data-reveal>
+        <svg class="chart" viewBox="0 0 640 340" role="img" aria-label="Cache savings percentage versus reuse count per provider"></svg>
+        <div class="legend" id="cache-leg"></div>
+        <p class="cap">Input savings % (y) vs times a prefix is reused (x).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 quadratic -->
+<section>
+  <div class="wrap">
+    <div class="finding flip">
+      <div class="txt">
+        <span class="num">Chapter 07 · the agent loop</span>
+        <h3>Long loops cost O(K²)</h3>
+        <p class="take">An agent re-sends its growing context every step, so cumulative input is <b>quadratic</b>. Caching halves the constant; only <b>compaction</b> bends it back to linear. The shaded band is what compaction saves.</p>
+        <span class="live-tag">Live · uses your loop length &amp; tokens</span>
+        <div class="stat">
+          <div class="s"><span class="v acc" id="quad-x">—</span><span class="l">tokens: your K vs 10 steps</span></div>
+          <div class="s"><span class="v good" id="quad-save">—</span><span class="l">saved by compaction at your K</span></div>
         </div>
       </div>
       <div class="viz" data-chart="quad" data-reveal>
-        <svg class="chart" viewBox="0 0 640 340" role="img" aria-label="Naive cost grows quadratically, cached halves it, compaction is linear"></svg>
+        <svg class="chart" viewBox="0 0 640 340" role="img" aria-label="Cumulative input cost: naive quadratic, cached, and compacted linear"></svg>
+        <div class="legend"><span><i style="background:var(--accent)"></i>naive · O(K²)</span><span><i style="background:var(--ink-2)"></i>cached</span><span><i style="background:var(--good)"></i>compacted · linear</span></div>
         <p class="cap">Cumulative input cost ($) vs agent loop length K.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CHEAT SHEET -->
 <section id="cheatsheet">
   <div class="wrap">
     <p class="kicker" data-reveal>Everything, as decisions</p>
@@ -445,240 +463,342 @@ noscript img{width:100%;border:1px solid var(--hair);border-radius:12px}
   </div>
 </section>
 
-<!-- CLOSE -->
 <section class="close band">
   <div class="wrap">
     <p class="kicker" data-reveal>The closing argument</p>
     <h2 data-reveal>Don't trust the numbers. Re-run them.</h2>
-    <p class="lede" data-reveal style="opacity:1;transform:none">Every figure on this page traces to a sourced, dated file and a script that shells out to an exact-math kernel. Same inputs, bit-identical outputs — every time.</p>
+    <p class="lede" data-reveal style="opacity:1;transform:none">Every figure traces to a sourced, dated file and a script that shells out to an exact-math kernel. The calculator does the same math in your browser. Same inputs, bit-identical outputs.</p>
     <div class="repo" data-reveal>
-      <div class="cmd">
-        <div><span class="p">$</span> git clone <b>github.com/copyleftdev/rational</b></div>
-        <div><span class="p">$</span> make all <span class="p"># re-run every chapter</span></div>
-        <div><span class="p">$</span> make ch04 <span class="p"># or just one</span></div>
-      </div>
+      <div class="cmd"><div><span class="p">$</span> git clone <b>github.com/copyleftdev/rational</b></div><div><span class="p">$</span> make all <span class="p"># re-run every chapter</span></div></div>
       <a class="btn btn-fill" href="https://github.com/copyleftdev/rational" target="_blank" rel="noopener">Open the repo ↗</a>
     </div>
-    <noscript>
-      <div class="nscharts">
-        <img src="assets/charts/ch01_privacy_frontier.png" alt="Cost-of-privacy frontier">
-        <img src="assets/charts/ch02_selfhost_breakeven.png" alt="Self-host break-even utilization">
-        <img src="assets/charts/ch07_loop_quadratic.png" alt="The O(K squared) agent loop tax">
-      </div>
-    </noscript>
+    <noscript><div class="nscharts"><img src="assets/charts/ch01_privacy_frontier.png" alt="Cost-of-privacy frontier"><img src="assets/charts/ch02_selfhost_breakeven.png" alt="Self-host break-even"><img src="assets/charts/ch07_loop_quadratic.png" alt="The O(K squared) agent loop"></div></noscript>
   </div>
 </section>
 </main>
 
-<footer>
-  <div class="wrap">
-    <span>Rational · AI cost, with the vibes removed</span>
-    <span>exact-rational math · live-researched prices · observed 2026</span>
-  </div>
-</footer>
+<footer><div class="wrap"><span>Rational · AI cost, with the vibes removed</span><span>exact-rational math · live-researched prices · observed 2026</span></div></footer>
 
 <script>
 (()=>{
 "use strict";
-const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const NS="http://www.w3.org/2000/svg";
 const el=(n,a={})=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const clear=n=>{while(n.firstChild)n.removeChild(n.firstChild);};
 
-/* sticky top */
-const top=$("#top");
-addEventListener("scroll",()=>top.classList.toggle("stuck",scrollY>12),{passive:true});
-
-/* hero headline */
-requestAnimationFrame(()=>$("#hero").classList.add("reveal-h1"));
-
-/* ticker */
-const feed=[["DeepSeek V3.2","0.1951","dn"],["MiniMax M2","0.2629","up"],["GLM-4.6","0.5276","up"],
-["Kimi K2","0.6613","up"],["DeepSeek V4 Flash","0.0896","dn"],["Qwen3 235B","0.09","dn"],
-["Gemini 3.1 Pro","2.00","up"],["Claude Opus 4.8","5.00","up"],["DeepSeek R1","0.6519","up"]];
-const tkHTML=feed.map(([n,p,d])=>`<span class="tk">${n} <b>$${p}</b>/1M <span class="${d}">${d==="dn"?"▼":"▲"}</span></span>`).join("");
-$("#ticker").innerHTML=tkHTML+tkHTML;
-
-/* count-up */
-function countUp(node){
-  const to=parseFloat(node.dataset.count), dp=+(node.dataset.dp||0);
-  const suf=node.dataset.suffix||"", pre=node.dataset.prefix||"";
-  const dur=1100, t0=performance.now();
-  const ease=x=>1-Math.pow(1-x,3);
-  (function step(t){
-    const k=Math.min(1,(t-t0)/dur), v=to*ease(k);
-    node.textContent=pre+v.toFixed(dp)+suf;
-    if(k<1)requestAnimationFrame(step);else node.textContent=pre+to.toFixed(dp)+suf;
-  })(t0);
-}
-
-/* ---- chart builders (drawn once visible) ---- */
-const PAD={l:52,r:22,t:22,b:40}, W=640,H=340;
-const plot={x0:PAD.l,x1:W-PAD.r,y0:H-PAD.b,y1:PAD.t};
-const mapX=(v,a,b)=>plot.x0+(v-a)/(b-a)*(plot.x1-plot.x0);
-const mapY=(v,a,b)=>plot.y0+(v-a)/(b-a)*(plot.y1-plot.y0);
-const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-
-function axis(svg,{xs,ys,xf=v=>v,yf=v=>v}){
-  svg.appendChild(el("line",{class:"ax",x1:plot.x0,y1:plot.y0,x2:plot.x1,y2:plot.y0}));
-  svg.appendChild(el("line",{class:"ax",x1:plot.x0,y1:plot.y0,x2:plot.x0,y2:plot.y1}));
-  xs.forEach(([v,a,b])=>{const x=mapX(v,a,b);const t=el("text",{class:"axtxt",x,y:plot.y0+18,"text-anchor":"middle"});t.textContent=xf(v);svg.appendChild(t);});
-  ys.forEach(([v,a,b])=>{const y=mapY(v,a,b);
-    svg.appendChild(el("line",{class:"gl",x1:plot.x0,y1:y,x2:plot.x1,y2:y}));
-    const t=el("text",{class:"axtxt",x:plot.x0-8,y:y+3,"text-anchor":"end"});t.textContent=yf(v);svg.appendChild(t);});
-}
-function pathFrom(pts){return pts.map((p,i)=>(i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)).join(" ");}
-
-const builders={
-  rank(card){
-    const data=[["DeepSeek V3.2 · OpenRouter",1.49,1],["V3.2 · DeepInfra",2.53],["MiniMax M2",3.60],
-      ["GLM-4.6",7.43],["Kimi K2",10.02],["DeepSeek R1",12.07]];
-    const max=12.07, host=$("#rankBars");
-    data.forEach(([n,v,win],i)=>{
-      const d=document.createElement("div");d.className="bar"+(win?" win":"");d.style.setProperty("--i",i);
-      d.style.setProperty("--w",(v/max).toFixed(3));
-      d.innerHTML=`<div class="bl"><span class="nm">${n}</span><span class="vl">${v.toFixed(2)}</span></div><div class="tr"><div class="fl"></div></div>`;
-      host.appendChild(d);
-    });
-  },
-  breakeven(card){
-    const data=[["8×H200 · rent on-demand",531],["8×H200 · rent reserved",372],["8×H200 · own",220],
-      ["8×B200 · rent on-demand",232],["8×B200 · rent reserved",174],["8×B200 · own",72,1]];
-    const max=560, host=$("#beBars");
-    data.forEach(([n,v,win],i)=>{
-      const d=document.createElement("div");d.className="bar"+(win?" win":"");d.style.setProperty("--i",i);
-      d.style.setProperty("--w",Math.min(1,v/max).toFixed(3));
-      d.innerHTML=`<div class="bl"><span class="nm">${n}</span><span class="vl">${v}%${win?" ✓":""}</span></div><div class="tr"><div class="fl"></div></div>`;
-      host.appendChild(d);
-    });
-  },
-  npv(card){
-    const data=[["Commit\n30% off",1557,""],["Pay-go\ncommodity 80%/yr",1198,"good"],["Pay-go\nfrontier 30%/yr",1905,"bad"]];
-    const max=2050, host=$("#npvBars");
-    data.forEach(([n,v,cls],i)=>{
-      const d=document.createElement("div");d.className="vbar "+cls;d.style.setProperty("--i",i);
-      d.style.setProperty("--h",(v/max).toFixed(3));
-      d.innerHTML=`<span class="cv">$${v.toLocaleString()}</span><div class="col"></div><span class="cl">${n.replace("\n","<br>")}</span>`;
-      host.appendChild(d);
-    });
-  },
-  frontier(card){
-    const svg=$("svg",card);
-    const D=[[0,146.77],[40,146.77],[50,154.83],[60,162.89],[70,216.62],[80,271.61],[87.2,311.59]];
-    const xa=0,xb=100,ya=120,yb=340;
-    axis(svg,{xs:[[0,xa,xb],[40,xa,xb],[60,xa,xb],[87.2,xa,xb]],ys:[[150,ya,yb],[220,ya,yb],[290,ya,yb]],
-      xf:v=>v+"%",yf:v=>"$"+v});
-    // wall
-    const wx=mapX(87.2,xa,xb);
-    svg.appendChild(el("rect",{class:"wall",x:wx,y:plot.y1,width:plot.x1-wx,height:plot.y0-plot.y1,fill:"var(--accent-wash)"}));
-    svg.appendChild(el("line",{class:"wall",x1:wx,y1:plot.y1,x2:wx,y2:plot.y0,stroke:"var(--accent)","stroke-width":2,"stroke-dasharray":"5 4"}));
-    const wt=el("text",{class:"walltxt axtxt",x:wx-6,y:plot.y1+14,"text-anchor":"end",fill:"var(--accent-deep)","font-weight":700});
-    wt.textContent="WALL · infeasible ≥87.2%";svg.appendChild(wt);
-    const pts=D.map(([x,y])=>[mapX(x,xa,xb),mapY(y,ya,yb)]);
-    const p=el("path",{class:"line trace",d:pathFrom(pts),stroke:"var(--accent)"});
-    svg.appendChild(p);p.style.setProperty("--len",p.getTotalLength());
-    pts.forEach(pt=>svg.appendChild(el("circle",{class:"dot",cx:pt[0],cy:pt[1],r:4,fill:"var(--surface)",stroke:"var(--accent)","stroke-width":2})));
-    // annotation: free zone
-    const at=el("text",{class:"walltxt axtxt",x:mapX(20,xa,xb),y:mapY(150,ya,yb)-10,"text-anchor":"middle"});
-    at.textContent="first 40% is free";svg.appendChild(at);
-  },
-  tax(card){
-    const svg=$("svg",card);
-    const K=[0,2,4,8,12,20], R=[8.13,12.91,17.69,27.24,36.80,55.91], champ=3.17;
-    const xa=0,xb=20,ya=0,yb=60;
-    axis(svg,{xs:[[0,xa,xb],[4,xa,xb],[8,xa,xb],[12,xa,xb],[20,xa,xb]],ys:[[0,ya,yb],[20,ya,yb],[40,ya,yb],[60,ya,yb]],
-      xf:v=>"k="+v,yf:v=>v});
-    // champion line
-    const cy=mapY(champ,ya,yb);
-    svg.appendChild(el("line",{class:"wall",x1:plot.x0,y1:cy,x2:plot.x1,y2:cy,stroke:"var(--good)","stroke-width":2,"stroke-dasharray":"5 4"}));
-    const ct=el("text",{class:"walltxt axtxt",x:plot.x1,y:cy-6,"text-anchor":"end",fill:"var(--good)","font-weight":700});
-    ct.textContent="V3.2 champion · 3.17m";svg.appendChild(ct);
-    const pts=K.map((x,i)=>[mapX(x,xa,xb),mapY(R[i],ya,yb)]);
-    // area
-    const area=[...pts,[plot.x1,cy],[plot.x0,cy]];
-    svg.appendChild(el("path",{class:"area",d:pathFrom(area)+" Z",fill:"var(--accent-wash)"}));
-    const p=el("path",{class:"line trace",d:pathFrom(pts),stroke:"var(--accent)"});
-    svg.appendChild(p);p.style.setProperty("--len",p.getTotalLength());
-    pts.forEach(pt=>svg.appendChild(el("circle",{class:"dot",cx:pt[0],cy:pt[1],r:4,fill:"var(--surface)",stroke:"var(--accent)","stroke-width":2})));
-  },
-  cascade(card){
-    const svg=$("svg",card);
-    const P=[["Cheap-only",77,3.17,"ink"],["Premium-only",88,82.96,"acc"],["V3.2→Opus",97.2,19.78,"good"],["3-tier",99.5,13.52,"good"]];
-    const xa=72,xb=103,ya=0,yb=92;
-    axis(svg,{xs:[[75,xa,xb],[85,xa,xb],[95,xa,xb],[100,xa,xb]],ys:[[0,ya,yb],[40,ya,yb],[80,ya,yb]],
-      xf:v=>v+"%",yf:v=>v+"m"});
-    // guiding arrow premium-only -> 2tier
-    const a1=[mapX(88,xa,xb),mapY(82.96,ya,yb)], a2=[mapX(97.2,xa,xb),mapY(19.78,ya,yb)];
-    svg.appendChild(el("path",{class:"area",d:pathFrom([a1,a2]),stroke:"var(--good)","stroke-width":1.5,"stroke-dasharray":"4 4",fill:"none"}));
-    P.forEach(([n,x,y,c],i)=>{
-      const col=c==="good"?"var(--good)":c==="acc"?"var(--accent)":"var(--ink-2)";
-      const cx=mapX(x,xa,xb),cyy=mapY(y,ya,yb);
-      const g=el("g",{class:"dot"});g.style.transitionDelay=(i*140)+"ms";
-      g.appendChild(el("circle",{cx,cy:cyy,r:7,fill:col,stroke:"var(--surface)","stroke-width":2}));
-      const t=el("text",{class:"axtxt",x:cx,y:cyy-13,"text-anchor":"middle",fill:col,"font-weight":700});
-      t.textContent=n;g.appendChild(t);
-      svg.appendChild(g);
-    });
-  },
-  quad(card){
-    const svg=$("svg",card);
-    const B=8000,Dl=1500,Wl=20000,PIN=0.26,PRD=0.13, xa=0,xb=100,ya=0,yb=2.2;
-    const naive=[],cached=[],comp=[]; let cum=0,cs=0;
-    for(let K=1;K<=100;K++){cum+=B+(K-1)*Dl; cs+=Math.min(B+(K-1)*Dl,B+Wl);
-      const uniq=B+(K-1)*Dl;
-      naive.push([K,cum*PIN/1e6]);
-      cached.push([K,(uniq*PIN+(cum-uniq)*PRD)/1e6]);
-      comp.push([K,cs*PIN/1e6]);}
-    axis(svg,{xs:[[0,xa,xb],[20,xa,xb],[40,xa,xb],[60,xa,xb],[80,xa,xb],[100,xa,xb]],
-      ys:[[0,ya,yb],[0.5,ya,yb],[1.0,ya,yb],[1.5,ya,yb],[2.0,ya,yb]],xf:v=>v,yf:v=>"$"+v.toFixed(1)});
-    const series=[[comp,"var(--good)","compacted · linear",0],[cached,"var(--ink-2)","cached",.25],[naive,"var(--accent)","naive · O(K²)",.5]];
-    series.forEach(([S,col,lab,delay])=>{
-      const pts=S.map(([x,y])=>[mapX(x,xa,xb),mapY(y,ya,yb)]);
-      const p=el("path",{class:"line trace",d:pathFrom(pts),stroke:col});
-      svg.appendChild(p);const L=p.getTotalLength();p.style.setProperty("--len",L);
-      p.style.transitionDelay=delay+"s";
-      const last=pts[pts.length-1];
-      const t=el("text",{class:"walltxt axtxt",x:last[0]-2,y:last[1]-7,"text-anchor":"end",fill:col,"font-weight":700});
-      t.textContent=lab;t.style.transitionDelay=(delay+.9)+"s";svg.appendChild(t);
-    });
+/* ---------- exact rational (BigInt) ---------- */
+const gcd=(a,b)=>{a=a<0n?-a:a;b=b<0n?-b:b;while(b){[a,b]=[b,a%b];}return a||1n;};
+class F{
+  constructor(n,d=1n){if(d<0n){n=-n;d=-d;}const k=gcd(n,d);this.n=n/k;this.d=d/k;}
+  static of(x){
+    if(x instanceof F)return x;
+    if(typeof x==="bigint")return new F(x,1n);
+    let s=(typeof x==="number"?(Number.isInteger(x)?x.toString():x.toPrecision(15)):String(x)).trim();
+    let neg=s[0]==="-";if(neg)s=s.slice(1);
+    let[i,f=""]=s.split(".");f=f.replace(/0+$/,"");
+    let n=BigInt((i||"0")+f)||0n,d=10n**BigInt(f.length);
+    return new F(neg?-n:n,d);
   }
+  add(o){o=F.of(o);return new F(this.n*o.d+o.n*this.d,this.d*o.d);}
+  sub(o){o=F.of(o);return new F(this.n*o.d-o.n*this.d,this.d*o.d);}
+  mul(o){o=F.of(o);return new F(this.n*o.n,this.d*o.d);}
+  div(o){o=F.of(o);return new F(this.n*o.d,this.d*o.n);}
+  num(){return Number(this.n)/Number(this.d);}
+}
+const f=x=>F.of(x);
+
+/* ---------- data (data/*.md, observed 2026) ---------- */
+const OPEN=[
+ {id:"v32or",name:"DeepSeek V3.2 · OpenRouter",in:.23,cached:.023,out:.34,q:77},
+ {id:"v32di",name:"DeepSeek V3.2 · DeepInfra",in:.26,cached:.13,out:.38,q:77},
+ {id:"v4f",name:"DeepSeek V4 Flash · Fireworks",in:.14,cached:.028,out:.28,q:78},
+ {id:"m2",name:"MiniMax M2",in:.30,cached:.03,out:1.20,q:73},
+ {id:"glm",name:"GLM-4.6 · z.ai",in:.60,cached:.11,out:2.20,q:71},
+ {id:"kimi",name:"Kimi K2 · DeepInfra",in:.50,cached:.40,out:2.00,q:66},
+ {id:"r1",name:"DeepSeek R1 · DeepInfra",in:.50,cached:.35,out:2.15,q:54},
+];
+const FB=[
+ {id:"opus",name:"Claude Opus 4.8",in:5,cached:.5,out:25,q:88},
+ {id:"gemini",name:"Gemini 3.1 Pro",in:2,cached:.2,out:12,q:81},
+ {id:"sonnet",name:"Claude Sonnet 4.6",in:3,cached:.3,out:15,q:82},
+];
+const MID={in:2,cached:.2,out:12,q:81}; // Gemini as fixed mid-tier for cascade
+const CACHE=[
+ {name:"DeepSeek 0.1×",in:.27,read:.027,write:.27,c:"var(--good)"},
+ {name:"OpenAI 0.1×",in:1.25,read:.125,write:1.25,c:"var(--good-2)"},
+ {name:"DeepInfra 0.5×",in:.26,read:.13,write:.26,c:"var(--ink-2)"},
+ {name:"Anthropic 1-hr (2× write)",in:5,read:.5,write:10,c:"var(--accent)"},
+];
+const NODES={h200own:{mo:8458,cap:19.71},b200own:{mo:11009,cap:78.84}};
+// ch05 break-even decline grid (from finance/NPV): [12mo,24mo,36mo]
+const HEAT={15:[31.3,16.7,11.5],30:[57.8,34.2,24.5],45:[78.7,52.6,39.4]};
+// ch01 allocation samples: theta -> {A,B,F,H}
+const ALLOC=[[0,{A:.6,B:.4}],[40,{A:.6,B:.4}],[50,{A:.5,B:.5}],[60,{A:.4,B:.6}],[70,{A:.3,B:.6,H:.1}],[80,{A:.2,B:.6,F:.13,H:.07}],[87.2,{A:.13,B:.6,F:.27}]];
+const FRONT=[[0,146.77],[40,146.77],[50,154.83],[60,162.89],[70,216.62],[80,271.61],[87.2,311.59]];
+
+/* ---------- state + models ---------- */
+const state={volM:1000,inPct:85,cachePct:75,ti:8000,to:600,k:4,steps:30,prov:"v32or",fb:"opus"};
+const prov=()=>OPEN.find(p=>p.id===state.prov);
+const fb=()=>FB.find(p=>p.id===state.fb);
+// weights as fractions
+function weights(){const wi=f(state.inPct).div(100),wo=f(1).sub(wi),ch=f(state.cachePct).div(100);
+  return {fresh:wi.mul(f(1).sub(ch)),cache:wi.mul(ch),out:wo};}
+function blended(p){const w=weights();return w.fresh.mul(p.in).add(w.cache.mul(p.cached)).add(w.out.mul(p.out));} // $/1M, F
+function attempt(p){const I=f(state.ti),O=f(state.to),k=f(state.k);
+  const inb=f(1).sub(f(state.cachePct).div(100)).mul(p.in).add(f(state.cachePct).div(100).mul(p.cached));
+  const inp=I.mul(inb).div(1e6), outp=O.mul(f(1).add(k)).mul(p.out).div(1e6);
+  return inp.add(outp);}
+function perSolved(p){return attempt(p).div(f(p.q).div(100));}
+
+/* ---------- number format ---------- */
+const money=x=>"$"+(x>=100?Math.round(x).toLocaleString():x.toFixed(x<1?4:2));
+const mdol=x=>x.toFixed(2)+"m";
+
+/* ---------- chart helpers ---------- */
+const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function frame(svg,W,H,pad){const p={l:pad.l,r:W-pad.r,t:pad.t,b:H-pad.b};
+  return {x:(v,a,b)=>p.l+(v-a)/(b-a)*(p.r-p.l),y:(v,a,b)=>p.b+(v-a)/(b-a)*(p.t-p.b),p};}
+function axes(svg,fr,xt,yt,xf,yf){
+  svg.appendChild(el("line",{class:"ax",x1:fr.p.l,y1:fr.p.b,x2:fr.p.r,y2:fr.p.b}));
+  svg.appendChild(el("line",{class:"ax",x1:fr.p.l,y1:fr.p.b,x2:fr.p.l,y2:fr.p.t}));
+  xt.forEach(([v,a,b])=>{const x=fr.x(v,a,b);const t=el("text",{class:"axtxt",x,y:fr.p.b+18,"text-anchor":"middle"});t.textContent=xf(v);svg.appendChild(t);});
+  yt.forEach(([v,a,b])=>{const y=fr.y(v,a,b);svg.appendChild(el("line",{class:"gl",x1:fr.p.l,y1:y,x2:fr.p.r,y2:y}));const t=el("text",{class:"axtxt",x:fr.p.l-8,y:y+3,"text-anchor":"end"});t.textContent=yf(v);svg.appendChild(t);});
+}
+const pathD=pts=>pts.map((p,i)=>(i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)).join(" ");
+function trace(svg,pts,color,w=2.6,delay=0){const p=el("path",{class:"line trace",d:pathD(pts),stroke:color,"stroke-width":w});svg.appendChild(p);p.style.setProperty("--len",p.getTotalLength());p.style.transitionDelay=delay+"s";return p;}
+
+/* ---------- charts (each: render(container)) ---------- */
+const charts={};
+
+charts.pareto=(c)=>{const svg=$("svg",c);clear(svg);const fr=frame(svg,640,380,{l:56,r:24,t:24,b:44});
+  const pts=OPEN.map(p=>({...p,y:blended(p).num()}));
+  const ymax=Math.max(...pts.map(p=>p.y))*1.08, xa=50,xb=82;
+  axes(svg,fr,[[55,xa,xb],[65,xa,xb],[75,xa,xb]],[[0,0,ymax],[ymax/2,0,ymax],[ymax,0,ymax]],v=>v,v=>"$"+v.toFixed(2));
+  // iso cost-per-quality rays (blended = c*q) through origin; c = best & 2x best
+  const best=Math.min(...pts.map(p=>p.y/p.q));
+  [best,best*2,best*4].forEach(cc=>{const p1=[fr.x(xa,xa,xb),fr.y(cc*xa,0,ymax)],p2=[fr.x(xb,xa,xb),fr.y(cc*xb,0,ymax)];
+    svg.appendChild(el("line",{class:"gl reveal-el",x1:p1[0],y1:p1[1],x2:p2[0],y2:p2[1],stroke:cssv("--ink-3"),"stroke-dasharray":"3 5"}));});
+  // frontier: sort by quality desc, keep points with strictly lower cost
+  const front=[];[...pts].sort((a,b)=>b.q-a.q).forEach(p=>{if(!front.length||p.y<front[front.length-1].y)front.push(p);});
+  const fpts=front.sort((a,b)=>a.q-b.q).map(p=>[fr.x(p.q,xa,xb),fr.y(p.y,0,ymax)]);
+  trace(svg,fpts,cssv("--good"),2,0);
+  const winner=pts.reduce((m,p)=>p.y/p.q<m.y/m.q?p:m);
+  pts.forEach((p,i)=>{const onf=front.includes(p);const cx=fr.x(p.q,xa,xb),cy=fr.y(p.y,0,ymax);
+    const g=el("g",{class:"dot reveal-el"});g.style.transitionDelay=(i*70+300)+"ms";
+    g.appendChild(el("circle",{cx,cy,r:p===winner?7:5,fill:onf?cssv("--good"):cssv("--ink-3"),stroke:"var(--surface)","stroke-width":2}));
+    if(p===winner||p.id==="r1"||p.id==="v4f"){const t=el("text",{class:"axtxt",x:cx,y:cy-12,"text-anchor":"middle",fill:onf?cssv("--good"):cssv("--ink-2"),"font-weight":700});t.textContent=p.name.split(" · ")[0];g.appendChild(t);}
+    svg.appendChild(g);});
+  $("#pareto-win").textContent=(winner.y/winner.q*1000).toFixed(2);
+  $("#pareto-win-l").textContent=winner.name.split(" · ")[0]+" · $/quality";
+  const worst=pts.reduce((m,p)=>p.y/p.q>m.y/m.q?p:m);
+  $("#pareto-worst").textContent=(worst.y/worst.q/(winner.y/winner.q)).toFixed(1)+"×";
 };
 
-/* cheat sheet */
-const SHEET=[
-  ["Which model?","A cheap efficient hybrid. Cheap output + high success beats everything on <b>cost per solved task</b>."],
-  ["One provider or many?","Blend via LP. The first ~40% of any jurisdiction constraint is usually <b>free</b>."],
-  ["Self-host?","<b>No — for cost.</b> Renting always loses for commodity models; only owned next-gen hardware, kept busy, wins."],
-  ["Reasoning model?","Only if its output tokens are cheap. A pricey heavy reasoner can be <b>mathematically uncatchable</b>."],
-  ["Retries?","Cascade to a <b>different, stronger</b> model — never retry the same one. Three tiers ≈ 99.5% coverage at ~6× less."],
-  ["Reserve capacity?","Only for sticky frontier prices, short terms. <b>Never</b> for commodity models in a market falling 50–90%/yr."],
-  ["Caching?","Always, for any reused prefix. Pays from call <b>2–3</b>. Prefer low cache-read multipliers."],
-  ["Long agent loops?","Cap the context window past ~20 steps, or pay <b>quadratically</b>."]
-];
-const sheet=$("#sheet");
-SHEET.forEach(([q,a])=>{const r=document.createElement("div");r.className="row";
-  r.innerHTML=`<div class="q">${q}</div><div class="a">${a}</div>`;sheet.appendChild(r);});
-
-/* observers */
-const drawn=new WeakSet();
-const io=new IntersectionObserver((ents)=>{
-  ents.forEach(e=>{
-    if(!e.isIntersecting)return;
-    const t=e.target;
-    if(t.hasAttribute("data-reveal"))t.classList.add("in");
-    if(t.matches(".row"))t.classList.add("in");
-    if(t.dataset.chart&&!drawn.has(t)){drawn.add(t);
-      requestAnimationFrame(()=>t.classList.add("drawn"));}
-    $$("[data-count]",t).forEach(n=>{if(!n.dataset.done){n.dataset.done=1;countUp(n);}});
-    io.unobserve(t);
+charts.frontier=(c)=>{const svg=$("svg",c);clear(svg);
+  const fr=frame(svg,640,400,{l:52,r:22,t:20,b:150});
+  axes(svg,fr,[[0,0,100],[40,0,100],[60,0,100],[87.2,0,100]],[[150,120,340],[240,120,340],[320,120,340]],v=>v+"%",v=>"$"+v);
+  const wx=fr.x(87.2,0,100);
+  svg.appendChild(el("rect",{class:"reveal-el",x:wx,y:fr.p.t,width:fr.p.r-wx,height:fr.p.b-fr.p.t,fill:"var(--accent-wash)"}));
+  svg.appendChild(el("line",{class:"reveal-el",x1:wx,y1:fr.p.t,x2:wx,y2:fr.p.b,stroke:"var(--accent)","stroke-width":2,"stroke-dasharray":"5 4"}));
+  const wt=el("text",{class:"axtxt reveal-el",x:wx-6,y:fr.p.t+12,"text-anchor":"end",fill:"var(--accent-deep)","font-weight":700});wt.textContent="WALL 87.2%";svg.appendChild(wt);
+  trace(svg,FRONT.map(([x,y])=>[fr.x(x,0,100),fr.y(y,120,340)]),"var(--accent)");
+  // allocation stacked area (bottom band)
+  const ay0=fr.p.b+34, ay1=fr.p.b+130, keys=["A","B","F","H"];
+  const cols={A:cssv("--good"),B:cssv("--good-2"),F:cssv("--gold"),H:cssv("--accent")};
+  const names={A:"V3.2·OR",B:"V3.2·DI",F:"Kimi",H:"R1"};
+  const al=el("text",{class:"axlab",x:fr.p.l,y:ay0-8});al.textContent="optimal provider mix";svg.appendChild(al);
+  ALLOC.slice(1).forEach((_,i)=>{const [t0,a0]=ALLOC[i],[t1,a1]=ALLOC[i+1];
+    let base0=0,base1=0;
+    keys.forEach(kk=>{const v0=a0[kk]||0,v1=a1[kk]||0;if(!v0&&!v1)return;
+      const x0=fr.x(t0,0,100),x1=fr.x(t1,0,100);
+      const p=[[x0,ay1-base0*(ay1-ay0)],[x1,ay1-base1*(ay1-ay0)],[x1,ay1-(base1+v1)*(ay1-ay0)],[x0,ay1-(base0+v0)*(ay1-ay0)]];
+      const poly=el("path",{class:"reveal-el",d:pathD(p)+" Z",fill:cols[kk],opacity:.9});poly.style.transitionDelay=(i*60+400)+"ms";svg.appendChild(poly);
+      base0+=v0;base1+=v1;});
   });
-},{threshold:.28,rootMargin:"0px 0px -8% 0px"});
+  [[0,"θ=0"],[87.2,"87%"]].forEach(([t,l])=>{const tt=el("text",{class:"axtxt",x:fr.x(t,0,100),y:ay1+16,"text-anchor":"middle"});tt.textContent=l;svg.appendChild(tt);});
+  $("#frontier-leg").innerHTML=keys.map(kk=>`<span><i style="background:${cols[kk]}"></i>${names[kk]}</span>`).join("");
+};
 
-/* build charts up front (hidden), then observe */
-$$("[data-chart]").forEach(c=>{const b=builders[c.dataset.chart];if(b)b(c);io.observe(c);});
+charts.crossover=(c)=>{const svg=$("svg",c);clear(svg);const fr=frame(svg,640,360,{l:58,r:24,t:24,b:44});
+  const api=blended(prov()).num(); // $/1M
+  const xb=90; // B tokens/mo
+  const yb=Math.max(api*xb*1000*1.05,14000);
+  axes(svg,fr,[[0,0,xb],[20,0,xb],[40,0,xb],[60,0,xb],[80,0,xb]],[[0,0,yb],[yb/2,0,yb],[yb,0,yb]],v=>v+"B",v=>"$"+(v/1000).toFixed(0)+"k");
+  // API ray
+  trace(svg,[[fr.x(0,0,xb),fr.y(0,0,yb)],[fr.x(xb,0,xb),fr.y(api*xb*1000,0,yb)]],"var(--accent)",2.6,0);
+  // node flat lines up to capacity
+  const drawNode=(nd,color,label,delay)=>{const cap=Math.min(nd.cap,xb);
+    trace(svg,[[fr.x(0,0,xb),fr.y(nd.mo,0,yb)],[fr.x(cap,0,xb),fr.y(nd.mo,0,yb)]],color,2.2,delay);
+    // capacity tick
+    svg.appendChild(el("line",{class:"gl reveal-el",x1:fr.x(cap,0,xb),y1:fr.y(nd.mo,0,yb)-6,x2:fr.x(cap,0,xb),y2:fr.y(nd.mo,0,yb)+6,stroke:color}));
+    // crossover
+    const vx=nd.mo/api/1000; // B tokens
+    if(vx<=nd.cap){const g=el("g",{class:"dot reveal-el"});g.style.transitionDelay="1.3s";
+      g.appendChild(el("circle",{cx:fr.x(vx,0,xb),cy:fr.y(nd.mo,0,yb),r:6,fill:color,stroke:"var(--surface)","stroke-width":2}));
+      const t=el("text",{class:"axtxt",x:fr.x(vx,0,xb),y:fr.y(nd.mo,0,yb)-12,"text-anchor":"middle",fill:color,"font-weight":700});t.textContent=vx.toFixed(0)+"B ✓";g.appendChild(t);svg.appendChild(g);return vx;}
+    else{const t=el("text",{class:"axtxt reveal-el",x:fr.x(cap,0,xb)-4,y:fr.y(nd.mo,0,yb)-8,"text-anchor":"end",fill:color,"font-weight":700});t.textContent="never";svg.appendChild(t);return null;}
+  };
+  const vB=drawNode(NODES.b200own,cssv("--good"),"B200",.4);
+  drawNode(NODES.h200own,cssv("--ink-3"),"H200",.7);
+  // "you are here"
+  const yv=Math.min(state.volM/1000,xb);
+  svg.appendChild(el("line",{class:"gl reveal-el",x1:fr.x(yv,0,xb),y1:fr.p.t,x2:fr.x(yv,0,xb),y2:fr.p.b,stroke:cssv("--ink-2"),"stroke-dasharray":"4 3"}));
+  const yt=el("text",{class:"axtxt reveal-el",x:fr.x(yv,0,xb),y:fr.p.t-4,"text-anchor":"middle",fill:cssv("--ink-2"),"font-weight":700});yt.textContent="you";svg.appendChild(yt);
+  $("#be-cross").textContent=vB?vB.toFixed(0)+"B":"never";
+};
+
+charts.decomp=(c)=>{const svg=$("svg",c);clear(svg);const fr=frame(svg,640,380,{l:150,r:30,t:16,b:40});
+  const rows=OPEN.map(p=>{const inb=f(1).sub(f(state.cachePct).div(100)).mul(p.in).add(f(state.cachePct).div(100).mul(p.cached));
+    const inp=f(state.ti).mul(inb).div(1e6).num()*1000;
+    const outp=f(state.to).mul(p.out).div(1e6).num()*1000;
+    const think=f(state.to).mul(state.k).mul(p.out).div(1e6).num()*1000;
+    const att=inp+outp+think, ps=att/(p.q/100), retry=ps-att;
+    return {name:p.name.split(" · ")[0],inp,outp,think,retry,ps,id:p.id};}).sort((a,b)=>a.ps-b.ps);
+  const max=Math.max(...rows.map(r=>r.ps))*1.02, bh=(fr.p.b-fr.p.t)/rows.length;
+  axes(svg,fr,[[0,0,max],[max/2,0,max],[max,0,max]],[],v=>v.toFixed(0)+"m",v=>v);
+  const segs=[["inp","var(--ink-2)"],["outp","var(--good)"],["think","var(--accent)"],["retry","var(--accent-wash)"]];
+  rows.forEach((r,i)=>{const y=fr.p.t+i*bh+bh*0.14,h=bh*0.62;let x=fr.p.l;const win=i===0;
+    const lab=el("text",{class:"axtxt",x:fr.p.l-10,y:y+h/2+3,"text-anchor":"end",fill:win?cssv("--good"):cssv("--ink"),"font-weight":win?700:400});lab.textContent=r.name;svg.appendChild(lab);
+    segs.forEach(([key,col])=>{const w=(r[key]/max)*(fr.p.r-fr.p.l);if(w<=0)return;
+      const rect=el("rect",{class:"grow-x",x,y,width:w,height:h,fill:col,rx:2});rect.style.transformOrigin=x+"px 0";rect.style.transitionDelay=(i*70)+"ms";
+      if(key==="retry")rect.setAttribute("stroke",cssv("--accent")),rect.setAttribute("stroke-dasharray","2 2"),rect.setAttribute("stroke-width","1");
+      svg.appendChild(rect);x+=w;});
+    const vt=el("text",{class:"axtxt reveal-el",x:x+6,y:y+h/2+3,fill:cssv("--ink-2")});vt.style.transitionDelay=(i*70+400)+"ms";vt.textContent=r.ps.toFixed(1)+"m";svg.appendChild(vt);
+  });
+  const champ=rows[0], r1=rows.find(r=>r.id==="r1");
+  if(r1){$("#tax-x").textContent=(r1.ps/champ.ps).toFixed(1)+"×";$("#tax-think").textContent=Math.round((r1.think+r1.retry)/r1.ps*100)+"%";}
+};
+
+charts.funnel=(c)=>{const svg=$("svg",c);clear(svg);const W=640,H=360,pl=20,pr=24,pt=40,pb=30;
+  const p1=prov().q/100,p2=MID.q/100,p3=fb().q/100,N=1000;
+  const s1=N*p1,e1=N-s1,s2=e1*p2,e2=e1-s2,s3=e2*p3,uns=e2-s3;
+  const cols=[cssv("--good"),cssv("--good-2"),cssv("--accent"),cssv("--ink-3")];
+  const stages=[{enter:N,solved:s1,label:"Primary "+prov().name.split(" · ")[0],col:cols[0]},
+    {enter:e1,solved:s2,label:"Mid "+"Gemini",col:cols[1]},
+    {enter:e2,solved:s3,label:"Top "+fb().name.split(" ")[1],col:cols[2],uns:uns}];
+  const bandH=(H-pt-pb)/3, full=W-pl-pr;
+  stages.forEach((st,i)=>{const y=pt+i*bandH+bandH*0.20,h=bandH*0.44;
+    const wEnter=(st.enter/N)*full, wS=(st.solved/N)*full;
+    svg.appendChild(el("rect",{x:pl,y,width:Math.max(wEnter,3),height:h,fill:cssv("--paper-2"),rx:6}));
+    const g=el("rect",{class:"grow-x",x:pl,y,width:Math.max(wS,3),height:h,fill:st.col,rx:6});g.style.transformOrigin=pl+"px 0";g.style.transitionDelay=(i*220)+"ms";svg.appendChild(g);
+    let cap=st.label+" · "+Math.round(st.solved)+" solved";
+    if(i<2)cap+="   ↓ "+Math.round(st.enter-st.solved)+" escalate";
+    if(st.uns!==undefined)cap+="   · "+st.uns.toFixed(0)+" unsolved";
+    const lab=el("text",{class:"axlab",x:pl,y:y-9});lab.textContent=cap;svg.appendChild(lab);
+  });
+  const cov=((N-uns)/N*100);
+  const ct=el("text",{class:"axlab reveal-el",x:pl,y:H-8,fill:cssv("--good"),"font-weight":700});ct.style.transitionDelay="900ms";ct.textContent=cov.toFixed(1)+"% coverage · "+(e2/N*100).toFixed(1)+"% reach the frontier";svg.appendChild(ct);
+};
+
+charts.heat=(c)=>{const host=$("#heat",c);clear(host);
+  host.appendChild(hcell("hh","",""));
+  ["12-mo","24-mo","36-mo"].forEach(t=>host.appendChild(hcell("hh",t)));
+  const oklGood=getComputedStyle(document.documentElement);
+  [15,30,45].forEach((disc,ri)=>{
+    host.appendChild(hcell("rl",disc+"% off"));
+    HEAT[disc].forEach((g,ci)=>{
+      const cell=document.createElement("div");cell.className="hc";
+      // color: higher g* (waiting wins more easily) -> greener; lower -> redder
+      const t=Math.min(1,Math.max(0,(g-11)/(79-11)));
+      cell.style.background=`color-mix(in oklch, var(--good-wash) ${t*100}%, var(--accent-wash))`;
+      cell.style.transitionDelay=((ri*3+ci)*45)+"ms";
+      cell.innerHTML=`<b>${g.toFixed(0)}%</b><small>break-even</small>`;
+      host.appendChild(cell);
+    });
+  });
+  function hcell(cls,txt){const d=document.createElement("div");d.className=cls;d.textContent=txt;return d;}
+};
+
+charts.cache=(c)=>{const svg=$("svg",c);clear(svg);const fr=frame(svg,640,340,{l:50,r:120,t:20,b:42});
+  axes(svg,fr,[[1,1,12],[4,1,12],[8,1,12],[12,1,12]],[[0,-20,95],[50,-20,95],[90,-20,95]],v=>v,v=>v+"%");
+  svg.appendChild(el("line",{class:"gl",x1:fr.p.l,y1:fr.y(0,-20,95),x2:fr.p.r,y2:fr.y(0,-20,95),stroke:cssv("--ink-3")}));
+  CACHE.forEach((p,i)=>{const pts=[];for(let N=1;N<=12;N++){const s=(1-(p.write+(N-1)*p.read)/(N*p.in))*100;pts.push([fr.x(N,1,12),fr.y(s,-20,95)]);}
+    trace(svg,pts,p.c,2.2,i*.15);
+    const last=pts[pts.length-1];const t=el("text",{class:"axtxt reveal-el",x:fr.p.r+6,y:last[1]+3,fill:p.c,"font-weight":700});t.style.transitionDelay=(i*.15+.9)+"s";t.textContent=p.name;svg.appendChild(t);});
+};
+
+charts.quad=(c)=>{const svg=$("svg",c);clear(svg);const fr=frame(svg,640,340,{l:54,r:24,t:20,b:42});
+  const B=state.ti,D=1500,W=20000,PIN=prov().in,PRD=prov().cached,K=100;
+  const naive=[],cached=[],comp=[];let cum=0,cs=0;
+  for(let k=1;k<=K;k++){cum+=B+(k-1)*D;cs+=Math.min(B+(k-1)*D,B+W);const uniq=B+(k-1)*D;
+    naive.push(cum*PIN/1e6);cached.push((uniq*PIN+(cum-uniq)*PRD)/1e6);comp.push(cs*PIN/1e6);}
+  const yb=Math.max(naive[K-1]*1.05,0.5);
+  axes(svg,fr,[[0,0,K],[20,0,K],[40,0,K],[60,0,K],[80,0,K],[100,0,K]],[[0,0,yb],[yb/2,0,yb],[yb,0,yb]],v=>v,v=>"$"+v.toFixed(1));
+  const mp=arr=>arr.map((y,i)=>[fr.x(i+1,0,K),fr.y(y,0,yb)]);
+  // savings band naive->comp
+  const band=[...mp(comp),...mp(naive).reverse()];
+  const bp=el("path",{class:"reveal-el",d:pathD(band)+" Z",fill:"var(--good-wash)"});bp.style.transitionDelay=".6s";svg.appendChild(bp);
+  trace(svg,mp(comp),cssv("--good"),2.4,0);trace(svg,mp(cached),cssv("--ink-2"),2.2,.25);trace(svg,mp(naive),cssv("--accent"),2.6,.5);
+  // stats vs user K
+  const K0=Math.max(1,Math.min(K,state.steps));
+  let cumK=0,csK=0;for(let k=1;k<=K0;k++){cumK+=B+(k-1)*D;csK+=Math.min(B+(k-1)*D,B+W);}
+  let cum10=0;for(let k=1;k<=10;k++)cum10+=B+(k-1)*D;
+  $("#quad-x").textContent=(cumK/cum10).toFixed(1)+"×";
+  $("#quad-save").textContent=Math.round((1-csK/cumK)*100)+"%";
+  // marker at user K
+  svg.appendChild(el("line",{class:"gl reveal-el",x1:fr.x(K0,0,K),y1:fr.p.t,x2:fr.x(K0,0,K),y2:fr.p.b,stroke:cssv("--ink-2"),"stroke-dasharray":"4 3"}));
+};
+
+/* ---------- calculator wiring ---------- */
+function fillSelect(id,arr,sel){const s=$(id);s.innerHTML=arr.map(o=>`<option value="${o.id}"${o.id===sel?" selected":""}>${o.name}</option>`).join("");}
+function fmtVol(m){return m>=1000?(m/1000).toFixed(m%1000?1:0)+"B":m+"M";}
+const reactive=["pareto","crossover","decomp","quad"]; // charts that depend on inputs
+function renderOutputs(){
+  const p=prov(),bl=blended(p),mo=bl.mul(state.volM);
+  const ps=perSolved(p);
+  // cascade 2-tier vs fallback
+  const p1=p.q/100,pf=fb().q/100;const cAtt=attempt(p),fAtt=attempt(fb());
+  const casCost=cAtt.add(f(1-p1).mul(fAtt)).div(f(p1+(1-p1)*pf));const casCov=(p1+(1-p1)*pf)*100;
+  // cache break-even for provider (read=cached, write=in)
+  const Nstar=(p.in-p.cached)===0?1:(p.in-p.cached)/(p.in-p.cached); // =1 (no write premium in our open set)
+  // self-host b200 own crossover
+  const vx=NODES.b200own.mo/bl.num()/1000;
+  const outs=[
+    {v:money(bl.num()),cls:"n",l:"your blended $/1M",sub:p.name.split(" · ")[0]},
+    {v:money(mo.num()),cls:"a",l:"cost / month",sub:fmtVol(state.volM)+" tokens"},
+    {v:mdol(ps.num()*1000),cls:"n",l:"cost / solved task",sub:"p="+p.q+"%"},
+    {v:mdol(casCost.num()*1000),cls:"g",l:"cascade / solved",sub:casCov.toFixed(1)+"% coverage"},
+    {v:vx<=NODES.b200own.cap?vx.toFixed(0)+"B":"never",cls:vx<=NODES.b200own.cap?"g":"a",l:"self-host break-even",sub:"8×B200 owned/mo"},
+    {v:"call "+(Nstar<=1?"2":Math.ceil(Nstar)+1),cls:"g",l:"caching pays from",sub:"prefix reuse"},
+  ];
+  $("#outs").innerHTML=outs.map(o=>`<div class="out"><div class="ov ${o.cls}">${o.v}</div><div class="ol">${o.l}</div><div class="osub">${o.sub}</div></div>`).join("");
+  $("#calc-blend").textContent="blended = "+bl.num().toFixed(5)+" $/1M (exact: "+bl.n+"/"+bl.d+")";
+}
+let raf;
+function recompute(){cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{
+  renderOutputs();
+  reactive.forEach(id=>{const c=$(`[data-chart="${id}"]`);if(c&&c.classList.contains("drawn"))charts[id](c);});
+});}
+function bindControls(){
+  const set=(id,k,fmt)=>{const inp=$(id),lab=$("#v-"+id.slice(3));
+    const upd=()=>{state[k]=+inp.value;lab.textContent=fmt(inp.value);recompute();};inp.addEventListener("input",upd);upd();};
+  set("#c-vol","volM",v=>fmtVol(+v));set("#c-in","inPct",v=>v+"% / "+(100-v)+"% out");
+  set("#c-cache","cachePct",v=>v+"%");set("#c-ti","ti",v=>(+v).toLocaleString());
+  set("#c-to","to",v=>(+v).toLocaleString());set("#c-k","k",v=>"×"+v);set("#c-steps","steps",v=>v+" steps");
+  fillSelect("#c-prov",OPEN,state.prov);fillSelect("#c-fb",FB,state.fb);
+  $("#c-prov").addEventListener("change",e=>{state.prov=e.target.value;recompute();});
+  $("#c-fb").addEventListener("change",e=>{state.fb=e.target.value;recompute();});
+}
+
+/* ---------- boot ---------- */
+const top=$("#top");addEventListener("scroll",()=>top.classList.toggle("stuck",scrollY>12),{passive:true});
+requestAnimationFrame(()=>$("#hero").classList.add("reveal-h1"));
+const feed=[["DeepSeek V3.2","0.1951","dn"],["MiniMax M2","0.2629","up"],["GLM-4.6","0.5276","up"],["Kimi K2","0.6613","up"],["DeepSeek V4 Flash","0.0896","dn"],["Qwen3 235B","0.09","dn"],["Gemini 3.1 Pro","2.00","up"],["Claude Opus 4.8","5.00","up"],["DeepSeek R1","0.6519","up"]];
+const tk=feed.map(([n,p,d])=>`<span class="tk">${n} <b>$${p}</b>/1M <span class="${d}">${d==="dn"?"▼":"▲"}</span></span>`).join("");
+$("#ticker").innerHTML=tk+tk;
+const SHEET=[["Which model?","A cheap efficient hybrid. Cheap output + high success beats everything on <b>cost per solved task</b>."],["One provider or many?","Blend via LP. The first ~40% of any jurisdiction constraint is usually <b>free</b>."],["Self-host?","<b>No — for cost.</b> Renting always loses for commodity models; only owned next-gen hardware, kept busy, wins."],["Reasoning model?","Only if its output tokens are cheap. A pricey heavy reasoner can be <b>mathematically uncatchable</b>."],["Retries?","Cascade to a <b>different, stronger</b> model — never retry the same one. Three tiers ≈ 99.5% coverage at ~6× less."],["Reserve capacity?","Only for sticky frontier prices, short terms. <b>Never</b> for commodity models in a market falling 50–90%/yr."],["Caching?","Always, for any reused prefix. Pays from call <b>2–3</b>. Prefer low cache-read multipliers."],["Long agent loops?","Cap the context window past ~20 steps, or pay <b>quadratically</b>."]];
+const sheet=$("#sheet");SHEET.forEach(([q,a])=>{const r=document.createElement("div");r.className="row";r.innerHTML=`<div class="q">${q}</div><div class="a">${a}</div>`;sheet.appendChild(r);});
+
+bindControls();
+
+const io=new IntersectionObserver((ents)=>{ents.forEach(e=>{if(!e.isIntersecting)return;const t=e.target;
+  if(t.hasAttribute("data-reveal"))t.classList.add("in");
+  if(t.matches(".row"))t.classList.add("in");
+  if(t.dataset.chart){t.classList.add("drawn");const fn=charts[t.dataset.chart];if(fn)requestAnimationFrame(()=>fn(t));}
+  io.unobserve(t);});},{threshold:.2,rootMargin:"0px 0px -6% 0px"});
+$$("[data-chart]").forEach(c=>io.observe(c));
 $$("[data-reveal],.row").forEach(n=>io.observe(n));
-// stat blocks in text columns (no data-chart) still need count-up + reveal
-$$(".finding .txt").forEach(t=>io.observe(t.querySelector(".stat")?t:t));
-$$(".stat").forEach(s=>io.observe(s));
 })();
 </script>
 </body>
