@@ -34,9 +34,10 @@ All chapters share one production-agentic workload profile (Hermes-Agent-style t
 | 06 | [Prompt-cache ROI](models/06-cache-roi/) | Reuse count where caching pays off vs. write premium | `eval`, `interval` | ✅ |
 | 07 | [Agent-loop compounding](models/07-loop-compounding/) | Why turn N costs O(N²) without compaction | `polynomial` | ✅ |
 
-## Article
+## Site & article
 
-The full write-up lives in [`article/the-ai-cost-modeling-handbook.md`](article/the-ai-cost-modeling-handbook.md) — all eight chapters as one narrative, with charts. Regenerate the figures with `python3 article/charts/make_charts.py`.
+- **Site** — a kinetic single-page presentation of the findings in [`docs/`](docs/) (light-mode, self-drawing SVG charts). Deploy via Settings → Pages → branch `main`, folder `/docs`. Serve locally with `python3 -m http.server -d docs`.
+- **Article** — the full write-up in [`article/the-ai-cost-modeling-handbook.md`](article/the-ai-cost-modeling-handbook.md), all eight chapters as one narrative with charts. Regenerate figures with `python3 article/charts/make_charts.py`.
 
 ## Reproduce
 
