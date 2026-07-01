@@ -6,20 +6,47 @@
 <title>Rational — the AI cost-modeling handbook</title>
 <meta name="description" content="Rational: AI cost with the vibes removed. Eight inference-cost decisions settled with exact-rational math and live-researched prices — plus a live calculator that runs your own numbers in the browser.">
 <meta name="theme-color" content="#f7f3ea">
+<meta name="author" content="copyleftdev">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="keywords" content="LLM cost, AI inference cost, cost optimization, LLM calculator, agent cost, DeepSeek, prompt caching, self-host LLM, token pricing, LLMOps">
 <link rel="canonical" href="https://copyleftdev.github.io/rational/">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Rational">
+<meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://copyleftdev.github.io/rational/">
 <meta property="og:title" content="Rational — the AI cost-modeling handbook">
-<meta property="og:description" content="AI cost with the vibes removed. Eight decisions, exact math, live prices, and a calculator for your own numbers.">
-<meta property="og:image" content="https://copyleftdev.github.io/rational/assets/charts/ch01_privacy_frontier.png">
+<meta property="og:description" content="AI cost with the vibes removed. Eight inference-cost decisions, exact math, live prices, and a calculator for your own numbers.">
+<meta property="og:image" content="https://copyleftdev.github.io/rational/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Rational — stop guessing your AI costs. Do the math.">
+<meta property="article:published_time" content="2026-06-30">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Rational — the AI cost-modeling handbook">
 <meta name="twitter:description" content="AI cost with the vibes removed. Eight decisions, exact math, and a live calculator.">
-<meta name="twitter:image" content="https://copyleftdev.github.io/rational/assets/charts/ch01_privacy_frontier.png">
+<meta name="twitter:image" content="https://copyleftdev.github.io/rational/assets/og.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23f7f3ea'/%3E%3Cpath d='M6 22 L13 13 L19 17 L26 7' fill='none' stroke='%23c0442a' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebSite","@id":"https://copyleftdev.github.io/rational/#website","url":"https://copyleftdev.github.io/rational/","name":"Rational","description":"AI cost, with the vibes removed — exact-rational models and a live calculator for LLM inference-cost decisions.","inLanguage":"en","publisher":{"@id":"https://copyleftdev.github.io/rational/#person"}},
+{"@type":"Person","@id":"https://copyleftdev.github.io/rational/#person","name":"copyleftdev","url":"https://github.com/copyleftdev"},
+{"@type":"TechArticle","@id":"https://copyleftdev.github.io/rational/#article","headline":"Rational — the AI cost-modeling handbook","description":"Eight LLM inference-cost decisions settled with exact-rational math and live-researched prices, plus a browser calculator that runs your own numbers.","image":"https://copyleftdev.github.io/rational/assets/og.png","datePublished":"2026-06-30","dateModified":"2026-06-30","inLanguage":"en","author":{"@id":"https://copyleftdev.github.io/rational/#person"},"publisher":{"@id":"https://copyleftdev.github.io/rational/#person"},"mainEntityOfPage":{"@id":"https://copyleftdev.github.io/rational/#website"},"keywords":"LLM cost, AI inference cost, cost optimization, LLM calculator, agent cost, DeepSeek, prompt caching, self-hosting, LLMOps","articleSection":["Model selection","Provider routing","Self-host vs serverless","Reasoning-token tax","Retry cascade","Reserved capacity","Prompt caching","Agent-loop cost"]},
+{"@type":"FAQPage","@id":"https://copyleftdev.github.io/rational/#faq","mainEntity":[
+{"@type":"Question","name":"Which model is most cost-effective for an AI agent?","acceptedAnswer":{"@type":"Answer","text":"A cheap efficient hybrid. Cheap output tokens plus a high success rate beats everything on cost per solved task."}},
+{"@type":"Question","name":"Should I use one provider or blend many?","acceptedAnswer":{"@type":"Answer","text":"Blend with a linear program. The first ~40% of any jurisdiction or diversity constraint is usually free."}},
+{"@type":"Question","name":"Should I self-host LLM inference to save money?","acceptedAnswer":{"@type":"Answer","text":"No, for cost. Renting GPUs always loses for commodity models; only owned next-generation hardware kept highly utilized beats a cheap API."}},
+{"@type":"Question","name":"Are reasoning models cheaper per solved task?","acceptedAnswer":{"@type":"Answer","text":"Only if their output tokens are cheap. A pricey heavy reasoner can be mathematically uncatchable on cost per solved task."}},
+{"@type":"Question","name":"How should I handle retries in an agent?","acceptedAnswer":{"@type":"Answer","text":"Cascade to a different, stronger model — never retry the same one. Three tiers reach about 99.5 percent coverage at roughly 6x lower cost than going straight to a frontier model."}},
+{"@type":"Question","name":"Should I commit to reserved inference capacity?","acceptedAnswer":{"@type":"Answer","text":"Only for sticky frontier prices on short terms. Never commit for commodity models in a market where prices fall 50 to 90 percent per year."}},
+{"@type":"Question","name":"Is prompt caching worth it?","acceptedAnswer":{"@type":"Answer","text":"Almost always, for any reused prefix. Caching pays from the second or third call. Prefer providers with low cache-read multipliers."}},
+{"@type":"Question","name":"Why do long agent loops get expensive?","acceptedAnswer":{"@type":"Answer","text":"An agent re-sends its growing context every step, so cumulative input cost is quadratic. Cap the context window past about 20 steps with compaction, or pay O(K squared)."}}
+]},
+{"@type":"BreadcrumbList","@id":"https://copyleftdev.github.io/rational/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Rational","item":"https://copyleftdev.github.io/rational/"}]}
+]}
+</script>
 <style>
 :root{
   --paper:oklch(0.976 0.008 82);--paper-2:oklch(0.958 0.011 78);--surface:oklch(0.995 0.004 85);

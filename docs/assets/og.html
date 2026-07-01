@@ -1,0 +1,34 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Spectral:ital,wght@1,400&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:oklch(0.976 0.008 82);--ink:oklch(0.245 0.017 62);--ink2:oklch(0.46 0.02 66);--accent:oklch(0.565 0.165 33);--good:oklch(0.53 0.115 158);--hair:oklch(0.90 0.01 76)}
+  *{margin:0;box-sizing:border-box}
+  body{width:1200px;height:630px;background:var(--paper);color:var(--ink);font-family:"Bricolage Grotesque",sans-serif;position:relative;overflow:hidden}
+  .grid{position:absolute;inset:0;background-image:linear-gradient(var(--hair) 1px,transparent 1px),linear-gradient(90deg,var(--hair) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(130% 100% at 78% 0%,#000 25%,transparent 75%);opacity:.6}
+  .pad{position:absolute;inset:0;padding:74px 80px;display:flex;flex-direction:column;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:14px;font-weight:700;font-size:30px;letter-spacing:-.01em}
+  .brand svg{width:38px;height:38px}
+  h1{font-weight:800;font-size:88px;line-height:.98;letter-spacing:-.03em;max-width:15ch;margin-top:8px}
+  h1 em{font-family:"Spectral",serif;font-style:italic;font-weight:400;color:var(--accent)}
+  .sub{font-family:"JetBrains Mono",monospace;font-size:23px;color:var(--ink2);letter-spacing:.01em}
+  .chips{display:flex;gap:12px;margin-top:18px}
+  .chip{font-family:"JetBrains Mono",monospace;font-size:19px;padding:9px 16px;border:1px solid var(--hair);border-radius:999px;color:var(--ink2)}
+  .chip.a{border-color:var(--accent);color:var(--accent)}
+  .chip.g{border-color:var(--good);color:var(--good)}
+  .foot{display:flex;justify-content:space-between;align-items:flex-end;gap:40px}
+  .url{font-family:"JetBrains Mono",monospace;font-size:21px;color:var(--accent);white-space:nowrap}
+</style></head>
+<body>
+  <div class="grid"></div>
+  <div class="pad">
+    <div class="brand"><svg viewBox="0 0 32 32"><path d="M4 24 L13 12 L20 17 L29 4" fill="none" stroke="var(--accent)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Rational</div>
+    <div>
+      <h1>Stop guessing your AI costs. <em>Do the math.</em></h1>
+      <div class="chips"><span class="chip a">exact-rational math</span><span class="chip">live-researched prices</span><span class="chip g">a calculator for your workload</span></div>
+    </div>
+    <div class="foot">
+      <div class="sub">The AI cost-modeling handbook —<br>8 decisions, every number reproducible.</div>
+      <div class="url">copyleftdev.github.io/rational</div>
+    </div>
+  </div>
+</body></html>
