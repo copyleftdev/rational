@@ -1,6 +1,6 @@
 ---
 title: "The AI Cost-Modeling Handbook: I let Claude do the modeling, but never the arithmetic"
-published: false
+published: true
 tags: ai, llm, costoptimization, agents
 ---
 
