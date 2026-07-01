@@ -63,7 +63,7 @@ That's an 85/15 input/output split with 75% of input being a cache hit (the syst
 
 ## Chapter 1 — Optimal multi-provider routing (a linear program)
 
-![The cost-of-privacy frontier: cost stays flat until 40% US-jurisdiction traffic, rises steeply after 60%, and hits an infeasible wall at 87.2%](charts/ch01_privacy_frontier.png)
+![The cost-of-privacy frontier: cost stays flat until 40% US-jurisdiction traffic, rises steeply after 60%, and hits an infeasible wall at 87.2%](https://copyleftdev.github.io/rational/assets/charts/ch01_privacy_frontier.png)
 
 You don't have to pick one provider. Run a cheap one for the bulk, escalate elsewhere when constraints demand. The optimal split — minimize spend subject to a quality floor, per-endpoint capacity caps, and a **US-jurisdiction floor θ** — is a literal linear program. `agent-calc` solves it (`solve_lp`), then I re-verify the winning allocation's cost in exact rationals (the LP solver is f64; the headline number shouldn't be).
 
@@ -87,7 +87,7 @@ Three things intuition misses:
 
 ## Chapter 2 — Self-host vs. serverless: it's a utilization question
 
-![Break-even utilization by hardware and procurement: every rented and Hopper config needs >100% utilization (impossible); only owned 8×B200 wins at 72%](charts/ch02_selfhost_breakeven.png)
+![Break-even utilization by hardware and procurement: every rented and Hopper config needs >100% utilization (impossible); only owned 8×B200 wins at 72%](https://copyleftdev.github.io/rational/assets/charts/ch02_selfhost_breakeven.png)
 
 Everyone's instinct: "at some volume, renting GPUs beats per-token APIs." The reframe that changes everything: **a self-hosted node costs the same at 5% load or 95% load**, while the API scales linearly with tokens. So it's not a *dollar* break-even — it's a **break-even utilization**: how busy must the box stay to win?
 
@@ -110,7 +110,7 @@ For a commodity model this cheap on the API, **renting GPUs loses in every confi
 
 ## Chapter 3 — The reasoning-token tax
 
-![DeepSeek R1's cost-per-solved climbs steeply with reasoning burn, always far above the DeepSeek V3.2 champion line — even at zero thinking](charts/ch03_reasoning_tax.png)
+![DeepSeek R1's cost-per-solved climbs steeply with reasoning burn, always far above the DeepSeek V3.2 champion line — even at zero thinking](https://copyleftdev.github.io/rational/assets/charts/ch03_reasoning_tax.png)
 
 Reasoning models emit hidden "thinking" tokens, billed at the output rate. A 600-token answer can bill 7,800. Does the higher success rate justify the burn? The honest unit isn't $/token — it's **cost per *solved* task** = attempt cost ÷ success rate.
 
@@ -134,7 +134,7 @@ The rule: **the reasoning tax only pays when output tokens are cheap.** Thinking
 
 ## Chapter 4 — The retry cascade
 
-![Cost-per-solved vs coverage: cascades sit down-and-right of both single-model strategies — higher coverage at a fraction of premium-only cost](charts/ch04_cascade.png)
+![Cost-per-solved vs coverage: cascades sit down-and-right of both single-model strategies — higher coverage at a fraction of premium-only cost](https://copyleftdev.github.io/rational/assets/charts/ch04_cascade.png)
 
 You don't need one model for every task. Run a **cheap** model on everything, **escalate** to a reliable premium model only on the residual failures. `agent-calc` computes the escalation probability (`stats/binomial_pmf`) and the exact expected cost (`eval`).
 
@@ -153,7 +153,7 @@ And the trap to avoid: **retrying the *same* model never changes cost-per-solved
 
 ## Chapter 5 — The NPV of waiting
 
-![12-month NPV: pay-go beats a 30%-off commit for fast-declining commodity prices (−23%) but loses for sticky frontier prices (+22%)](charts/ch05_npv_waiting.png)
+![12-month NPV: pay-go beats a 30%-off commit for fast-declining commodity prices (−23%) but loses for sticky frontier prices (+22%)](https://copyleftdev.github.io/rational/assets/charts/ch05_npv_waiting.png)
 
 A provider offers a discounted *reserved* rate if you commit for a year. Locking it in feels prudent — but token prices fall fast, and you might be locking yourself *above* where pay-go will be in six months. This is a present-value problem: NPV the committed cash-flow stream against the declining pay-go stream (`agent-calc finance/net_present_value`), and find the **break-even decline rate**.
 
@@ -188,7 +188,7 @@ Caching looks free, but a cache *write* often costs more than a normal input tok
 
 ## Chapter 7 — Agent-loop compounding (the O(K²) tax)
 
-![Cumulative input cost vs loop length: naive grows quadratically, caching halves the constant but stays quadratic, compaction turns it linear](charts/ch07_loop_quadratic.png)
+![Cumulative input cost vs loop length: naive grows quadratically, caching halves the constant but stays quadratic, compaction turns it linear](https://copyleftdev.github.io/rational/assets/charts/ch07_loop_quadratic.png)
 
 Why is that reused prefix so large? Because a multi-turn agent re-sends its growing context every step — at step *k*, the input is the base prompt plus *every prior tool call and result*. Per-step input grows linearly, so **cumulative input over a K-step task grows quadratically**:
 
